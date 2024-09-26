@@ -1,0 +1,46 @@
+package data.remote.response.getReceiptsRes
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class GetReceiptsResItem(
+    val amount: String,
+    val butchery: String,
+    val created_at: String,
+    val curRcptNo: String? = null,
+    val customer: String,
+    val customername: String? = null,
+    val customerpin: String? = null,
+    val deleted_at: String? = null,
+    val deletion_id: String? = null,
+    val deletion_user_id: String? = null,
+    val etimsid: String? = null,
+    val etimsinvoicenumber: String? = null,
+    val etimsstatus: String,
+    val id: Int,
+    val intrlData: String? = null,
+    val items: List<Item>,
+    val note: String,
+    val payment_cashier: PaymentCashier? = null,
+    val payment_cashier_id: Int? = null,
+    val payment_device: String? = null,
+    val payment_station_id: Int? = null,
+    val placing_cashier: PlacingCashier? = null,
+    val placing_cashier_id: Int? = null,
+    val placing_device: String,
+    val placing_station: PlacingStation,
+    val placing_station_id: Int? = null,
+    val placing_waiter: PlacingWaiter? = null,
+    val placing_waiter_id: Int? = null,
+    val print: String,
+    val qrurl: String? = null,
+    val rcptSign: String? = null,
+    val restaurant: String,
+    val sdcDateTime: String? = null,
+    val status: String,
+    val token: String,
+    val totRcptNo: String? = null,
+    val total_amount: String,
+    val type: String,
+    val updated_at: String
+)

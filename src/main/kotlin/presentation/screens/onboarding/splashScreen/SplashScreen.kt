@@ -1,5 +1,6 @@
 package presentation.screens.onboarding.splashScreen
 
+import SplashScreenViewModel
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen

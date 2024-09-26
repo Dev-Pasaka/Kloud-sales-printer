@@ -3,6 +3,9 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
+    id("io.realm.kotlin") version "1.16.0"
+    id("app.cash.sqldelight") version "2.0.2"
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 group = "com.ubunuworks.kloudsales.pc.externalprinter"
@@ -12,6 +15,17 @@ repositories {
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     google()
+}
+
+
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.ubunuworks.kloudsales.pc.externalprinter")
+            schemaOutputDirectory = file("src/main/sqldelight/databases")
+        }
+    }
 }
 
 repositories {
@@ -26,6 +40,7 @@ dependencies {
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     val voyagerVersion = "1.0.0"
+    val ktor_version="2.3.8"
     implementation(compose.desktop.currentOs)
 
     //PDF
@@ -45,6 +60,36 @@ dependencies {
     implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion")
     // Kodein integration
     implementation("cafe.adriel.voyager:voyager-kodein:$voyagerVersion")
+    //ImageLoading
+    api("io.github.qdsfdhvh:image-loader:1.2.1")
+    //Extended material icons
+    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.3.0")
+    //RealmDb
+    implementation("io.realm.kotlin:library-base:1.16.0")
+    // If using Device Sync
+    implementation("io.realm.kotlin:library-sync:1.16.0")
+    // If using coroutines with the SDK
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
+    //Room
+    implementation("com.squareup.sqldelight:runtime:1.5.3")
+    implementation("com.squareup.sqldelight:coroutines-extensions:1.5.3")
+    implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
+    //Kotlinx Serialization
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    //Kafka
+    implementation("org.apache.kafka:kafka-clients:3.4.0")
+    //Ktor
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    // Logging plugin
+    implementation("io.ktor:ktor-client-logging:2.3.4")
+    //Serialization
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    //String formatter
+    implementation("de.vandermeer:asciitable:0.3.2")
+
+
 
 
 

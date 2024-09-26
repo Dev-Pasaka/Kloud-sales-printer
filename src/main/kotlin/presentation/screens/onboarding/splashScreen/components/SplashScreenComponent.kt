@@ -1,5 +1,6 @@
 package presentation.screens.onboarding.splashScreen.components
 
+import AppColors
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,12 +22,12 @@ fun SplashScreenComponent() {
     val navigator = LocalNavigator.current
     LaunchedEffect(Unit) {
         delay(3000)
-       navigator?.push(SignInScreen(navigator = navigator))
+       navigator?.push(SignInScreen())
     }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = AppColors.backgroundColor
     ){
         Column(
             modifier = Modifier.fillMaxSize(),

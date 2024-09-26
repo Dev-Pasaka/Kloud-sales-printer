@@ -5,7 +5,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import data.repository.ReceiptRepositoryImpl
 import domain.usecase.GenerateReceiptUseCase
-import domain.usecase.WatchNewReceiptsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

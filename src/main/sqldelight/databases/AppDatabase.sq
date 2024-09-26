@@ -1,0 +1,35 @@
+-- src/main/sqldelight/com/ubunuworks/kloudsales/pc/externalprinter/Receipt.sq
+
+CREATE TABLE IF NOT EXISTS Receipt (
+    _id TEXT NOT NULL PRIMARY KEY,
+    receiptNumber TEXT NOT NULL ,
+    user TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    data TEXT NOT NULL,
+    receiptName TEXT NOT NULL,
+    url TEXT NOT NULL,
+    status TEXT NOT NULL
+);
+
+
+
+insertReceipt:
+INSERT INTO Receipt (_id, receiptNumber, user, date, time, data, receiptName, url, status)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectAllReceipts:
+SELECT * FROM Receipt;
+
+selectReceiptById:
+SELECT * FROM Receipt WHERE _id = ?;
+
+updateReceipt:
+UPDATE Receipt
+SET receiptNumber = ?, user = ?, date = ?, time = ?, data = ?, receiptName = ?, url = ?, status = ?
+WHERE _id = ?;
+
+deleteReceipt:
+DELETE FROM Receipt WHERE _id = ?;
+
+
