@@ -56,7 +56,7 @@ class GetReceiptsRepositoryImpl(
 }
 
 suspend fun main(){
-    val receipts = GetReceiptsRepositoryImpl().getReceipts(
+    val receipts = GetReceiptsRepositoryImpl().getBills(
         body = GetReceiptsReq(
             type = "paid",
             station = 1

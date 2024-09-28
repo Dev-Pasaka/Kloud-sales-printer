@@ -34,13 +34,30 @@ repositories {
 
 
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_11 // Set to Java version you are using
+    targetCompatibility = JavaVersion.VERSION_11
+}
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11)) // Set to match Java version
+    }
+}
+tasks.register("printJavaVersion") {
+    doLast {
+        println("Java version: ${System.getProperty("java.version")}")
+        println("Java vendor: ${System.getProperty("java.vendor")}")
+    }
+}
+
+
 dependencies {
     // Note, if you develop a library, you should use compose.desktop.common.
     // compose.desktop.currentOs should be used in launcher-sourceSet
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     val voyagerVersion = "1.0.0"
-    val ktor_version="2.3.8"
+    val ktor_version = "2.3.8"
     implementation(compose.desktop.currentOs)
 
     //PDF
@@ -88,6 +105,12 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     //String formatter
     implementation("de.vandermeer:asciitable:0.3.2")
+
+    implementation("com.github.hkirk:java-html2image:0.9")
+    implementation("org.apache.pdfbox:pdfbox:2.0.24") // Adjust the version as needed
+    implementation("org.apache.pdfbox:pdfbox-tools:2.0.24") // Required for PDF rendering
+    implementation("com.itextpdf:itext7-core:7.1.16")
+
 
 
 

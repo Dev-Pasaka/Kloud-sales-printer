@@ -87,26 +87,7 @@ fun printPNGImage(filePath: String): Flow<Pair<String, Boolean?>> = flow {
 
 suspend fun main() {
 
-//    printPNGImage("/").collect { (status, isSuccess) ->
-//        println(status)
-//        isSuccess?.let {
-//            if (it) {
-//                println("Printing succeeded.")
-//            } else {
-//                println("Printing failed.")
-//            }
-//        }
-//    }
-    /*GenerateReceiptUseCase().generateReceipt(
-        receiptContent = formattedContent,
-        qrData = "http://coinx.co.ke",
-        fileName = "auto2.png"
-    )*/
 
-//    WatchNewReceiptsUseCase().watchNewReceipts("./receipt").collect { file ->
-//        println("New file detected: ${file.absolutePath}")
-//
-//    }
 
     printPNGImage("./receipt_with_qr.png").collect{
         println(it)

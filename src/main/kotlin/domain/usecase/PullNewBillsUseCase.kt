@@ -18,7 +18,7 @@ class PullNewBillsUseCase(
     private val generateReceipt: GenerateReceiptUseCase = GenerateReceiptUseCase()
 ) {
     suspend fun pullBills(){
-        val receipts = getReceiptsRepository.getReceipts(body = GetReceiptsReq())
+        val receipts = getReceiptsRepository.getBills(body = GetReceiptsReq())
         receipts.forEach { receipt ->
             val receiptId= receipt.id.toString() ?: UUID.randomUUID().toString()
             val receiptString = receiptsRepository.convertJsonToFormattedReceiptString(receipt)

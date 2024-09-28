@@ -15,6 +15,8 @@ class DashboardScreenViewModel(
     private val reprintUseCase: ReprintUseCase = ReprintUseCase(),
     private val printReceiptUseCase: PrintReceiptUseCase = PrintReceiptUseCase(),
     private val deleteReceiptUseCase: DeleteReceiptUseCase = DeleteReceiptUseCase(),
+    private val continousPullOfBIllAndReceiptsUseCase: ContinousPullOfBIllAndReceiptsUseCase = ContinousPullOfBIllAndReceiptsUseCase(),
+    private val continousPrintReceiptsUseCase: ContinousPrintReceiptsUseCase = ContinousPrintReceiptsUseCase()
 ): ScreenModel {
     var selectedScreen by mutableStateOf("Logs")
         private set
@@ -95,16 +97,11 @@ class DashboardScreenViewModel(
 
     init {
         screenModelScope.launch {
-            PullNewReceiptsUseCase().pullReceipts().also {
-                PrintPendingReceiptsUseCase().printPendingReceipts()
-            }
+           // continousPullOfBIllAndReceiptsUseCase.execute()
+            //continousPrintReceiptsUseCase.execute()
+            refresh()
         }
-        screenModelScope.launch {
-            PullNewBillsUseCase().pullBills().also {
-                PrintPendingReceiptsUseCase().printPendingReceipts()
-            }
-        }
-        getReceipts()
+
 
     }
 

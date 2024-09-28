@@ -34,7 +34,7 @@ fun LogsBodyItem(
     actionOpenOrCloseViewReceipt: () -> Unit,
     deleteReceipt: (String, String) -> Unit,
 
-) {
+    ) {
 
     Surface(
         color = itemColor,
@@ -99,76 +99,43 @@ fun LogsBodyItem(
                     },
                     fontSize = 14.sp
                 )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconButton(
+                        onClick = {
+                            deleteReceipt(item.fileName, item.id)
+                            println("Image name ${item.fileName}")
+                        },
+                        modifier = Modifier.background(
+                            color = Color.Red.copy(alpha = 0.2f),
+                            shape = CircleShape
+                        )
 
-                when (item.status) {
-                    PrintingStatus.FALIED -> {
-                        OutlinedButton(
-                            onClick = {
-                                actionReprint(item.id, PrintingStatus.SUCCESS)
-                                println("ReceiptId ${item.id}")
-                            },
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = AppColors.backgroundColor,
-                                contentColor = Color.White,
-                            )
-                        ) {
-                            if (false) {
-                                Text(
-                                    text = "Loading...",
-                                    color = Color.White,
-                                    fontSize = 14.sp,
-                                )
-                            } else {
-                                Text(
-                                    text = "Reprint",
-                                    color = Color.White,
-                                    fontSize = 14.sp,
-                                )
-                            }
-                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete",
+                            tint = Color.Red.copy(alpha = 0.7f),
+                            modifier = Modifier.padding(4.dp)
+
+                        )
                     }
 
-                    else -> {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            IconButton(
-                                onClick = {
-                                    deleteReceipt(item.fileName, item.id)
-                                    println("Image name ${item.fileName}")
-                                },
-                                modifier = Modifier.background(
-                                    color = Color.Red.copy(alpha = 0.2f),
-                                    shape = CircleShape
-                                )
-
-                            ){
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete",
-                                    tint = Color.Red.copy(alpha = 0.7f),
-                                    modifier = Modifier.padding(4.dp)
-
-                                )
-                            }
-
-                            TextButton(
-                                onClick = {
-                                    actionSelectImage(item.fileName)
-                                    actionOpenOrCloseViewReceipt()
-                                },
-                                shape = CircleShape,
-                            ) {
-                                Text(
-                                    text = "View",
-                                    textDecoration = TextDecoration.Underline,
-                                    color = AppColors.primaryColor,
-                                    fontSize = 14.sp,
-                                )
-                            }
-                        }
+                    TextButton(
+                        onClick = {
+                            actionSelectImage(item.fileName)
+                            actionOpenOrCloseViewReceipt()
+                        },
+                        shape = CircleShape,
+                    ) {
+                        Text(
+                            text = "View",
+                            textDecoration = TextDecoration.Underline,
+                            color = AppColors.primaryColor,
+                            fontSize = 14.sp,
+                        )
                     }
                 }
             }
