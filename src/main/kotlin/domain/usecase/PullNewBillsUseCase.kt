@@ -20,7 +20,7 @@ class PullNewBillsUseCase(
     suspend fun pullBills(){
         val receipts = getReceiptsRepository.getBills(body = GetReceiptsReq())
         receipts.forEach { receipt ->
-            val receiptId= receipt.id.toString() ?: UUID.randomUUID().toString()
+            val receiptId= receipt.id.toString()
             val receiptString = receiptsRepository.convertJsonToFormattedReceiptString(receipt)
             db.createReceipt(
                 printingStatusObj = Receipt(

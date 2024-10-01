@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import java.nio.file.Paths
 
 plugins {
     kotlin("jvm")
@@ -23,7 +24,7 @@ sqldelight {
     databases {
         create("AppDatabase") {
             packageName.set("com.ubunuworks.kloudsales.pc.externalprinter")
-            schemaOutputDirectory = file("src/main/sqldelight/databases")
+            schemaOutputDirectory = file(Paths.get(System.getProperty("user.home"), "Desktop", "AppDatabaseSchema").toString())
         }
     }
 }
@@ -35,12 +36,12 @@ repositories {
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11 // Set to Java version you are using
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17 // Set to Java version you are using
+    targetCompatibility = JavaVersion.VERSION_17
 }
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11)) // Set to match Java version
+        languageVersion.set(JavaLanguageVersion.of(17)) // Set to match Java version
     }
 }
 tasks.register("printJavaVersion") {
@@ -49,13 +50,66 @@ tasks.register("printJavaVersion") {
         println("Java vendor: ${System.getProperty("java.vendor")}")
     }
 }
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "KloudSalesPrinter"
+            packageVersion = "1.0.0"
+            description = "A printer utility application"
+            vendor = "UbunuWorks"
+            copyright = "UbuniWorks © 2024"
+
+            linux {
+                // Linux-specific settings
+                debMaintainer = "support@ubunuworks.com"
+
+                    // Include java.sql module
+                modules.addAll(listOf("java.sql", "java.desktop"))
+
+            }
+
+            windows {
+                // Windows-specific settings
+                menuGroup = "UbunuWorks"
+                shortcut = true
+                console = false
+            }
+
+        }
+    }
+}
+
+tasks.create("packageComposeApp") {
+    dependsOn("createDistributable")
+    doLast {
+        println("Compose Desktop JAR and binaries have been packaged.")
+    }
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "MainKt" // Replace with your actual main class
+    }
+
+    from({
+        configurations.runtimeClasspath.get().filter {
+            it.name.endsWith("jar")
+        }.map { zipTree(it) }
+    })
+
+    // Exclude signature files
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+
 
 
 dependencies {
-    // Note, if you develop a library, you should use compose.desktop.common.
-    // compose.desktop.currentOs should be used in launcher-sourceSet
-    // (in a separate module for demo project and in testMain).
-    // With compose.desktop.common you will also lose @Preview functionality
+
     val voyagerVersion = "1.0.0"
     val ktor_version = "2.3.8"
     implementation(compose.desktop.currentOs)
@@ -94,7 +148,6 @@ dependencies {
     //Kotlinx Serialization
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     //Kafka
-    implementation("org.apache.kafka:kafka-clients:3.4.0")
     //Ktor
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
@@ -103,8 +156,6 @@ dependencies {
     //Serialization
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-    //String formatter
-    implementation("de.vandermeer:asciitable:0.3.2")
 
     implementation("com.github.hkirk:java-html2image:0.9")
     implementation("org.apache.pdfbox:pdfbox:2.0.24") // Adjust the version as needed
@@ -118,14 +169,4 @@ dependencies {
 
 }
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
 
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "KloudSalesPrinter"
-            packageVersion = "1.0.0"
-        }
-    }
-}

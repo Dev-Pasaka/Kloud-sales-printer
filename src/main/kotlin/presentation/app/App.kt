@@ -27,7 +27,6 @@ import java.util.UUID
 @Composable
 @Preview
 fun App() {
-    val scope = rememberCoroutineScope()
 
     MaterialTheme {
         val navigator = LocalNavigator.current

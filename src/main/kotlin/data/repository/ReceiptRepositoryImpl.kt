@@ -1,67 +1,71 @@
+
 package data.repository
 
-import androidx.compose.ui.unit.dp
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import com.itextpdf.io.image.ImageDataFactory
-import com.itextpdf.kernel.pdf.PdfDocument
-import com.itextpdf.kernel.pdf.PdfWriter
-import com.itextpdf.layout.Document
-import com.itextpdf.layout.element.AreaBreak
-import com.itextpdf.layout.element.Image
-import com.itextpdf.layout.property.AreaBreakType
-import data.dto.response.ReceiptRes
 import data.remote.response.getReceiptsRes.GetReceiptsResItem
-import de.vandermeer.asciitable.AsciiTable
 import domain.repository.ReceiptRepository
 import gui.ava.html.image.generator.HtmlImageGenerator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.pdmodel.PDPage
-import org.apache.pdfbox.pdmodel.PDPageContentStream
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import java.awt.*
 import java.awt.image.BufferedImage
-import java.awt.image.RenderedImage
 import java.awt.print.PageFormat
 import java.awt.print.Printable
-import java.awt.print.PrinterException
-import java.awt.print.PrinterJob
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.nio.file.FileSystems
-import java.nio.file.Path
 import java.nio.file.Paths
-import java.nio.file.StandardWatchEventKinds
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 import javax.imageio.ImageIO
 import javax.print.*
 import javax.print.attribute.HashPrintRequestAttributeSet
 import javax.print.attribute.standard.Copies
-import kotlin.math.max
-import kotlin.math.min
 
 
 class ReceiptRepositoryImpl() : ReceiptRepository {
-    // Your existing function to generate QR code image and save it to the file system
-    private fun generateQRCodeImage(link: String, size: Int, filePath: String) {
+    // Utility to get desktop path for receipts folder
+     fun getReceiptsFolderPath(): String {
+        return Paths.get(System.getProperty("user.home"), "Desktop", "receipts").toString()
+    }
+    private fun ensureReceiptsFolderExists() {
+        val receiptsFolder = Paths.get(getReceiptsFolderPath()).toFile()
+        if (!receiptsFolder.exists()) {
+            receiptsFolder.mkdirs()  // Create the folder if it doesn't exist
+        }
+    }
+
+    // Utility function to ensure the directory exists
+    private fun ensureDirectoryExists(directoryPath: String) {
+        val directory = File(directoryPath)
+        if (!directory.exists()) {
+            directory.mkdirs() // Create the directory if it doesn't exist
+        }
+    }
+
+
+    private fun generateQRCodeImage(link: String, size: Int, receiptId: String,) {
+        // Define the main receipts folder and the subdirectory
+        val receiptsFolderPath = Paths.get(getReceiptsFolderPath(), "qr_code_images").toString()
+
+        // Ensure the receipts subdirectory exists
+        ensureDirectoryExists(receiptsFolderPath)
+
+        // Define the file path where the QR code will be saved
+        val filePath = Paths.get(receiptsFolderPath, "qr-code-image.png").toString()
+
+        // Set encoding hints for the QR code
         val hints = mutableMapOf<EncodeHintType, Any>()
         hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
         hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.H
 
+        // Generate the QR code
         val qrCodeWriter = QRCodeWriter()
         val bitMatrix = qrCodeWriter.encode(link, BarcodeFormat.QR_CODE, size, size, hints)
 
+        // Create an image from the generated QR code
         val bufferedImage = BufferedImage(size, size, BufferedImage.TYPE_INT_RGB)
         for (x in 0 until size) {
             for (y in 0 until size) {
@@ -72,37 +76,56 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         // Save the QR code image to the specified file path
         ImageIO.write(bufferedImage, "png", File(filePath))
     }
-    private  fun generateImage(html: String,) {
+
+
+     fun generateImage(html: String, receiptId: String) {
+        // Ensure the receipts folder exists
+        ensureReceiptsFolderExists()
+
         // Create an instance of HtmlImageGenerator
         val imageGenerator = HtmlImageGenerator()
 
         // Load HTML content
         imageGenerator.loadHtml(html)
 
-        // Set the size for the image (width and height in pixels)
-        imageGenerator.setSize(Dimension(1000, imageGenerator.size.height)) // Create a Dimension object
+        // Set the size for the image
+        imageGenerator.setSize(Dimension(1000, imageGenerator.size.height))
 
-        // Save the image as PNG
-        imageGenerator.saveAsImage("./receipts/with-out-qr/receipt.png")
+        // Save the image as PNG to the desktop's receipts folder
+        val desktopReceiptsPath = Paths.get(getReceiptsFolderPath(), "$receiptId-without-qr-receipt.png").toString()
+        imageGenerator.saveAsImage(desktopReceiptsPath)
     }
 
+
     override fun generateReceiptWithQR(receiptContent: String, qrLink: String, receiptId: String): Boolean {
-        val filePath = "./receipts/${receiptId}_receipt.png"
+
+        val receiptsFolderPath = Paths.get(getReceiptsFolderPath(), "receipts-with-qr").toString()
+
+        // Ensure the receipts subdirectory exists
+        ensureDirectoryExists(receiptsFolderPath)
+
+        val filePath = Paths.get("${getReceiptsFolderPath()}/receipts-with-qr", "${receiptId}_receipt.png").toString()
         val file = File(filePath)
+
         // Check if the image file already exists
         if (!file.exists()) {
             // Save the image as PNG
-            generateImage(html = receiptContent)
+            generateImage(html = receiptContent, receiptId)
             println("Image saved as: $filePath")
         } else {
             println("Image already exists: $filePath")
         }
-        val imagePath1 = "./receipts/with-out-qr/receipt.png"
-        val imagePath2 = "qr_code_image.png"
 
-        return if (!file.exists())mergeImagesVertically(imagePath1, imagePath2, "./receipts/${receiptId}_receipt.png", ) else false
+        val imagePath1 = Paths.get(getReceiptsFolderPath(), "$receiptId-without-qr-receipt.png").toString()
+        val imagePath2 = Paths.get(getReceiptsFolderPath(), "qr_code_images", "qr-code-image.png").toString()
 
+        return if (!file.exists()) {
+            println("Image saved at: $filePath")
+            mergeImagesVertically(imagePath1, imagePath2, filePath)
+        }
+        else false
     }
+
     fun mergeImagesVertically(imagePath1: String, imagePath2: String, outputPath: String): Boolean {
         return try {
             // Load the two images
@@ -288,8 +311,8 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             ${if (receipt.status == "pending") "<p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>" else ""}
             <div class="straight-line"></div>
             ${
-                if (receipt.status == "paid"){
-                    """
+            if (receipt.status == "paid"){
+                """
                     <div class="kra">
                         <p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>
                         <p>Internal Data    : ${receipt.intrlData}</p>
@@ -299,8 +322,8 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <p>Customer Pin       : ${receipt.customerpin}</p>
                      </div>
                     """.trimIndent()
-                }else ""
-            }
+            }else ""
+        }
         </body>
         </html>
     """.trimIndent()
@@ -308,10 +331,109 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
 }
 
 
-// Custom Printable class for printing PDF documents
-class PDDocumentPrintable(private val document: PDDocument) : Printable {
-    override fun print(graphics: Graphics, pageFormat: PageFormat, pageIndex: Int): Int {
-        // You might need to implement PDF rendering here
-        return Printable.PAGE_EXISTS
-    }
+suspend fun main(){
+    ReceiptRepositoryImpl().generateImage(
+        html = "        <!DOCTYPE html>\n" +
+                "        <html lang=\"en\">\n" +
+                "        <head>\n" +
+                "            <meta charset=\"UTF-8\">\n" +
+                "            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "            <title>Receipt</title>\n" +
+                "            <style>\n" +
+                "                body {\n" +
+                "                    font-family: Arial, sans-serif;\n" +
+                "                    width: 400px;\n" +
+                "                    font-size: 18px;\n" +
+                "                    margin: 0 auto;\n" +
+                "                    padding: 10px;\n" +
+                "                }\n" +
+                "                .header {\n" +
+                "                    text-align: center;\n" +
+                "                    font-size: 18px;\n" +
+                "                } \n" +
+                "                .kra {\n" +
+                "                     text-align: start;\n" +
+                "                     font-size: 18px;\n" +
+                "                 }\n" +
+                "                .line {\n" +
+                "                    border-top: 1px dashed #000;\n" +
+                "                    margin-top: 5px;\n" +
+                "                    margin-bottom: 5px;\n" +
+                "                }\n" +
+                "                .straight-line {\n" +
+                "                    border-top: 1px solid #000; /* Creates a solid line */\n" +
+                "                }\n" +
+                "                .item-table {\n" +
+                "                    width: 100%;\n" +
+                "                    border-collapse: collapse;\n" +
+                "                }\n" +
+                "                .item-table th, .item-table td {\n" +
+                "                    padding: 5px;\n" +
+                "                    text-align: left;\n" +
+                "                }\n" +
+                "                .item-table th {\n" +
+                "                    border-bottom: 1px solid #000;\n" +
+                "                }\n" +
+                "                .right-align {\n" +
+                "                    text-align: right;\n" +
+                "                }\n" +
+                "            </style>\n" +
+                "        </head>\n" +
+                "        <body>\n" +
+                "            <div class=\"header\">\n" +
+                "                <img src=\"https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png\" width=\"300\" height=\"150\">\n" +
+                "                <p style=\"text-align: center; font-size: 20px;\">P.O BOX 16779 00100<br>Nairobi, Kenya</p>\n" +
+                "            </div>\n" +
+                "            <h2 style=\"text-align: center; font-size: 24px;\">RECEIPT                                           </h2>\n" +
+                "            <p>Receipt No: 3</p>\n" +
+                "            <p>Station: Village Market</p>\n" +
+                "            <p>Order Type: Take Away</p>\n" +
+                "            <p>Waiter: N/A</p>\n" +
+                "            <p>Table No./Cust Name: none</p>\n" +
+                "            <br>\n" +
+                "            <table class=\"item-table\">\n" +
+                "                <tr>\n" +
+                "                    <th>Items</th>\n" +
+                "                    <th>Qty</th>\n" +
+                "                    <th>Price</th>\n" +
+                "                    <th>Total</th>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "    <td>Cinnabon Classic Bun</td>\n" +
+                "    <td class=\"right-align\">1x</td>\n" +
+                "    <td class=\"right-align\">1000</td>\n" +
+                "    <td class=\"right-align\">1000.00</td>\n" +
+                "</tr><tr>\n" +
+                "    <td>Mini Caramel Pecanbon</td>\n" +
+                "    <td class=\"right-align\">1x</td>\n" +
+                "    <td class=\"right-align\">1000</td>\n" +
+                "    <td class=\"right-align\">1000.00</td>\n" +
+                "</tr><tr>\n" +
+                "    <td>2-Pack (Classic size)</td>\n" +
+                "    <td class=\"right-align\">1x</td>\n" +
+                "    <td class=\"right-align\">1000</td>\n" +
+                "    <td class=\"right-align\">1000.00</td>\n" +
+                "</tr>\n" +
+                "            </table>\n" +
+                "            <div class=\"straight-line\"></div>\n" +
+                "            <p><b>Total Amount: KES 3000.00</b></p>\n" +
+                "<p>Amount Paid: KES 3000.00</p>\n" +
+                "<p>Balance: KES 0.00</p>\n" +
+                "            <p>Payment Method: Cash  </p>\n" +
+                "            \n" +
+                "            \n" +
+                "            \n" +
+                "            <div class=\"straight-line\"></div>\n" +
+                "            <div class=\"kra\">\n" +
+                "    <p>Printed on: Tue, 1 Oct 2024 10:28:34</p>\n" +
+                "    <p>Internal Data    : null</p>\n" +
+                "    <p>Receipt Signature: null</p>\n" +
+                "    <p>Etims link       : null</p>\n" +
+                "    <p>Customer Name       : null</p>\n" +
+                "    <p>Customer Pin       : null</p>\n" +
+                " </div>\n" +
+                "        </body>\n" +
+                "        </html>",
+        receiptId = "werdgfb"
+    )
 }

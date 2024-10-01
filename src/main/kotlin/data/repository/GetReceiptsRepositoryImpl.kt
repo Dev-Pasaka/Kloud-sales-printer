@@ -19,39 +19,59 @@ class GetReceiptsRepositoryImpl(
 ):GetReceiptsRepository {
     override // Function to get receipts
     suspend fun getReceipts(body: GetReceiptsReq): List<GetReceiptsResItem> = withContext(Dispatchers.IO) {
-        val getReceipts: String = KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/transactions") {
-            val stationId = KeyValueStorage.get(key = "stationId")
-            contentType(ContentType.Application.Json)
-            setBody(
-                """
+        val getReceipts: String = try {
+            KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/transactions") {
+                val stationId = KeyValueStorage.get(key = "stationId")
+                contentType(ContentType.Application.Json)
+                setBody(
+                    """
                     {
                         "type": "${body.copy(type = "paid").type}",
                         "station": $stationId
                     }
                 """.trimIndent()
-            )  // This will automatically serialize the body using kotlinx.serialization
-        }.bodyAsText() // This automatically deserializes the response into the expected type
+                )
+            }.bodyAsText()
+        }catch (e:Exception){
+            e.printStackTrace()
+            ""
+        }
 
         println(getReceipts)
-        return@withContext Json.decodeFromString(getReceipts)
+        return@withContext try {
+            Json.decodeFromString(getReceipts)
+        }catch (e:Exception){
+            e.printStackTrace()
+            emptyList()
+        }
     }
 
     override suspend fun getBills(body: GetReceiptsReq): List<GetReceiptsResItem> = withContext(Dispatchers.IO) {
-        val getReceipts: String = KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/transactions") {
-            val stationId = KeyValueStorage.get(key = "stationId")
-            contentType(ContentType.Application.Json)
-            setBody(
-                """
+        val getReceipts: String = try {
+            KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/transactions") {
+                val stationId = KeyValueStorage.get(key = "stationId")
+                contentType(ContentType.Application.Json)
+                setBody(
+                    """
                     {
                         "type": "${body.copy(type = "pending").type}",
                         "station": $stationId
                     }
                 """.trimIndent()
-            )  // This will automatically serialize the body using kotlinx.serialization
-        }.bodyAsText() // This automatically deserializes the response into the expected type
+                )  // This will automatically serialize the body using kotlinx.serialization
+            }.bodyAsText()
+        }catch (e:Exception){
+            e.printStackTrace()
+            ""
+        }
 
         println(getReceipts)
-        return@withContext Json.decodeFromString(getReceipts)
+        return@withContext try {
+            Json.decodeFromString(getReceipts)
+        }catch (e:Exception){
+            e.printStackTrace()
+            emptyList()
+        }
     }
 }
 

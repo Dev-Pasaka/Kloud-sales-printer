@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import data.repository.ReceiptRepositoryImpl
 import java.io.File
 import java.io.InputStream
 import org.jetbrains.skia.Image
@@ -37,8 +38,9 @@ fun ViewReceipt(
     actionPrint: (String) -> Unit
 ) {
     println("Image: $image")
+    val imagePath = ReceiptRepositoryImpl().getReceiptsFolderPath()
 
-    val file = File("receipts/$image")
+    val file = File("$imagePath/receipts-with-qr/$image")
     val imageBitmap: ImageBitmap = remember(file) {
         loadImageBitmap(file.inputStream())
     }

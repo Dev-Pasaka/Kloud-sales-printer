@@ -45,3 +45,7 @@ class PullNewReceiptsUseCase(
 
     }
 }
+
+suspend fun main(){
+    PullNewReceiptsUseCase().pullReceipts()
+}
