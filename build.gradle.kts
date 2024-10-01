@@ -24,10 +24,14 @@ sqldelight {
     databases {
         create("AppDatabase") {
             packageName.set("com.ubunuworks.kloudsales.pc.externalprinter")
-            schemaOutputDirectory = file(Paths.get(System.getProperty("user.home"), "Desktop", "AppDatabaseSchema").toString())
+
+            // Define schema output directory on Desktop
+            schemaOutputDirectory = file("${System.getProperty("user.home")}/Desktop/receipts/AppDatabase")
         }
     }
 }
+
+
 
 repositories {
     maven("https://jitpack.io")

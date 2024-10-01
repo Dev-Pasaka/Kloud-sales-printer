@@ -172,7 +172,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             return@withContext (Pair("File not found: $filePath", false))
 
         }
-
+        println("Printing receipt: ${file.path}")
         val printRequestAttributeSet = HashPrintRequestAttributeSet().apply {
             add(Copies(1))
         }
@@ -284,8 +284,8 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
             <div class="header">
-                <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="150">
-                <p style="text-align: center; font-size: 20px;">P.O BOX 16779 00100<br>Nairobi, Kenya</p>
+                <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130">
+                <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br>Nairobi, Kenya</p>
             </div>
             <h2 style="text-align: center; font-size: 24px;">${receiptType.padEnd(50)}</h2>
             <p>${if (receipt.status == "pending") "BILL No: ${receipt.id}" else "Receipt No: ${receipt.id}"}</p>
@@ -315,11 +315,8 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                 """
                     <div class="kra">
                         <p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>
-                        <p>Internal Data    : ${receipt.intrlData}</p>
-                        <p>Receipt Signature: ${receipt.rcptSign}</p>
-                        <p>Etims link       : ${receipt.qrurl}</p>
-                        <p>Customer Name       : ${receipt.customername}</p>
-                        <p>Customer Pin       : ${receipt.customerpin}</p>
+                        <p>SCU ID    : ${receipt.intrlData}</p>
+                        <p>SCU No    : ${receipt.intrlData}</p>
                      </div>
                     """.trimIndent()
             }else ""
@@ -332,108 +329,5 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
 
 
 suspend fun main(){
-    ReceiptRepositoryImpl().generateImage(
-        html = "        <!DOCTYPE html>\n" +
-                "        <html lang=\"en\">\n" +
-                "        <head>\n" +
-                "            <meta charset=\"UTF-8\">\n" +
-                "            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                "            <title>Receipt</title>\n" +
-                "            <style>\n" +
-                "                body {\n" +
-                "                    font-family: Arial, sans-serif;\n" +
-                "                    width: 400px;\n" +
-                "                    font-size: 18px;\n" +
-                "                    margin: 0 auto;\n" +
-                "                    padding: 10px;\n" +
-                "                }\n" +
-                "                .header {\n" +
-                "                    text-align: center;\n" +
-                "                    font-size: 18px;\n" +
-                "                } \n" +
-                "                .kra {\n" +
-                "                     text-align: start;\n" +
-                "                     font-size: 18px;\n" +
-                "                 }\n" +
-                "                .line {\n" +
-                "                    border-top: 1px dashed #000;\n" +
-                "                    margin-top: 5px;\n" +
-                "                    margin-bottom: 5px;\n" +
-                "                }\n" +
-                "                .straight-line {\n" +
-                "                    border-top: 1px solid #000; /* Creates a solid line */\n" +
-                "                }\n" +
-                "                .item-table {\n" +
-                "                    width: 100%;\n" +
-                "                    border-collapse: collapse;\n" +
-                "                }\n" +
-                "                .item-table th, .item-table td {\n" +
-                "                    padding: 5px;\n" +
-                "                    text-align: left;\n" +
-                "                }\n" +
-                "                .item-table th {\n" +
-                "                    border-bottom: 1px solid #000;\n" +
-                "                }\n" +
-                "                .right-align {\n" +
-                "                    text-align: right;\n" +
-                "                }\n" +
-                "            </style>\n" +
-                "        </head>\n" +
-                "        <body>\n" +
-                "            <div class=\"header\">\n" +
-                "                <img src=\"https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png\" width=\"300\" height=\"150\">\n" +
-                "                <p style=\"text-align: center; font-size: 20px;\">P.O BOX 16779 00100<br>Nairobi, Kenya</p>\n" +
-                "            </div>\n" +
-                "            <h2 style=\"text-align: center; font-size: 24px;\">RECEIPT                                           </h2>\n" +
-                "            <p>Receipt No: 3</p>\n" +
-                "            <p>Station: Village Market</p>\n" +
-                "            <p>Order Type: Take Away</p>\n" +
-                "            <p>Waiter: N/A</p>\n" +
-                "            <p>Table No./Cust Name: none</p>\n" +
-                "            <br>\n" +
-                "            <table class=\"item-table\">\n" +
-                "                <tr>\n" +
-                "                    <th>Items</th>\n" +
-                "                    <th>Qty</th>\n" +
-                "                    <th>Price</th>\n" +
-                "                    <th>Total</th>\n" +
-                "                </tr>\n" +
-                "                <tr>\n" +
-                "    <td>Cinnabon Classic Bun</td>\n" +
-                "    <td class=\"right-align\">1x</td>\n" +
-                "    <td class=\"right-align\">1000</td>\n" +
-                "    <td class=\"right-align\">1000.00</td>\n" +
-                "</tr><tr>\n" +
-                "    <td>Mini Caramel Pecanbon</td>\n" +
-                "    <td class=\"right-align\">1x</td>\n" +
-                "    <td class=\"right-align\">1000</td>\n" +
-                "    <td class=\"right-align\">1000.00</td>\n" +
-                "</tr><tr>\n" +
-                "    <td>2-Pack (Classic size)</td>\n" +
-                "    <td class=\"right-align\">1x</td>\n" +
-                "    <td class=\"right-align\">1000</td>\n" +
-                "    <td class=\"right-align\">1000.00</td>\n" +
-                "</tr>\n" +
-                "            </table>\n" +
-                "            <div class=\"straight-line\"></div>\n" +
-                "            <p><b>Total Amount: KES 3000.00</b></p>\n" +
-                "<p>Amount Paid: KES 3000.00</p>\n" +
-                "<p>Balance: KES 0.00</p>\n" +
-                "            <p>Payment Method: Cash  </p>\n" +
-                "            \n" +
-                "            \n" +
-                "            \n" +
-                "            <div class=\"straight-line\"></div>\n" +
-                "            <div class=\"kra\">\n" +
-                "    <p>Printed on: Tue, 1 Oct 2024 10:28:34</p>\n" +
-                "    <p>Internal Data    : null</p>\n" +
-                "    <p>Receipt Signature: null</p>\n" +
-                "    <p>Etims link       : null</p>\n" +
-                "    <p>Customer Name       : null</p>\n" +
-                "    <p>Customer Pin       : null</p>\n" +
-                " </div>\n" +
-                "        </body>\n" +
-                "        </html>",
-        receiptId = "werdgfb"
-    )
+    ReceiptRepositoryImpl().printPNGImage("/home/dev-pasaka/Desktop/receipts/receipts-with-qr/4_receipt.png")
 }

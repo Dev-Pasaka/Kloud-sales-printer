@@ -75,6 +75,7 @@ fun ViewReceipt(
                     Button(
                         onClick = {
                             actionPrint(image)
+                            println("Printing receipt: ${file.path}")
                         },
                         shape = RoundedCornerShape(5.dp),
                         colors = ButtonDefaults.buttonColors(

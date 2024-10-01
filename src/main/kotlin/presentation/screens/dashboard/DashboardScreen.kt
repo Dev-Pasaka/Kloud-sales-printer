@@ -25,6 +25,7 @@ class DashboardScreen : Screen {
             actionSelectImage = {viewModel.selectImage(it)},actionRefresh = {viewModel.refresh()},
             actionPrintReceipt = {viewModel.printReceipt(it)},
             deleteReceipt = {fileName, id ->
+                println("FileName: $fileName")
                 viewModel.deleteReceipt(fileName, id)
             }
         )

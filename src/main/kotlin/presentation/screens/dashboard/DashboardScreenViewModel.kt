@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import common.Resource
+import data.repository.ReceiptRepositoryImpl
 import domain.model.PrintingStatus
 import domain.usecase.*
 import kotlinx.coroutines.launch
@@ -79,7 +80,7 @@ class DashboardScreenViewModel(
 
     fun printReceipt(receiptName:String){
         screenModelScope.launch {
-            printReceiptUseCase.printReceipt("./receipts/$receiptName")
+            printReceiptUseCase.printReceipt("${ReceiptRepositoryImpl().getReceiptsFolderPath()}/receipts-with-qr/$receiptName")
         }
     }
 

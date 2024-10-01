@@ -5,28 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7bc01e3-ee26-4130-9743-a50d96bf49e6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/utils/OSDirectory.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppDatabase.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qr_code_image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/receipts/with-out-qr/receipt.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Test1.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/DeleteReceiptUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/DeleteReceiptUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewBillsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewBillsUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewReceiptsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewReceiptsUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/driver.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/presentation/app/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/presentation/app/App.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/presentation/app/StartApp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PrintPendingReceiptsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PrintPendingReceiptsUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/DashboardScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/DashboardScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/DashboardScreenViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/DashboardScreenViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/routes/logsScreen/ViewReceipt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/routes/logsScreen/ViewReceipt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/test2.kt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +45,18 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build setup" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -190,8 +189,8 @@
       <recent name="data.remote.response.getReceiptsRes" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.KoudSalesPrinter [packageDeb]">
-    <configuration name="KoudSalesPrinter [packageDeb]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Kotlin.MainKt">
+    <configuration name="KoudSalesPrinter [packageComposeApp]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -202,7 +201,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="packageDeb" />
+            <option value="packageComposeApp" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -213,7 +212,7 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="KoudSalesPrinter [packageReleaseDeb]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="KoudSalesPrinter [package]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -224,7 +223,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="packageReleaseDeb" />
+            <option value="package" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -255,11 +254,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.KoudSalesPrinter [packageDeb]" />
-        <item itemvalue="Gradle.KoudSalesPrinter [packageReleaseDeb]" />
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Kotlin.ReceiptRepositoryImplKt" />
         <item itemvalue="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar" />
-        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.KoudSalesPrinter [packageComposeApp]" />
+        <item itemvalue="Gradle.KoudSalesPrinter [package]" />
       </list>
     </recent_temporary>
   </component>
@@ -283,7 +282,7 @@
       <workItem from="1727698170930" duration="50000" />
       <workItem from="1727698232101" duration="6267000" />
       <workItem from="1727716746977" duration="15803000" />
-      <workItem from="1727757623095" duration="3575000" />
+      <workItem from="1727757623095" duration="8325000" />
     </task>
     <servers />
   </component>
@@ -311,15 +310,6 @@
           <properties class="de.vandermeer.asciitable.AsciiTableException" package="de.vandermeer.asciitable" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-function">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt</url>
-          <line>27</line>
-          <properties class="data.repository.ReceiptRepositoryImpl" method="&lt;init&gt;">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

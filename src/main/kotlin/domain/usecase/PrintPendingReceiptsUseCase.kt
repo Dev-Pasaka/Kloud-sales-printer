@@ -1,6 +1,7 @@
 package domain.usecase
 
 import data.repository.ReceiptDBRepositoryImpl
+import data.repository.ReceiptRepositoryImpl
 import domain.model.PrintingStatus
 import domain.repository.ReceiptDBRepository
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,8 @@ class PrintPendingReceiptsUseCase(
     suspend fun printPendingReceipts() = withContext(Dispatchers.IO){
         val receipts = receiptDBRepository.getAllReceipts()
         receipts.forEach {receipt ->
-            val path = "./receipts/${receipt.id}_receipt.png"
+            val path = "${ReceiptRepositoryImpl().getReceiptsFolderPath()}/receipts-with-qr/${receipt.id}_receipt.png"
+            println("Receipt location: $path")
             if (receipt.status == PrintingStatus.PENDING){
                 printReceiptUseCase.printReceipt(path).also {
                     if (it.second == true){
