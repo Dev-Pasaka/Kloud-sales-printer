@@ -306,7 +306,6 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             <div class="straight-line"></div>
             $footerHtml
             ${if (receipt.status == "paid") "<p>Payment Method: Cash  </p>" else "<p><b>Amount Due:  ${receipt.total_amount}</b></p>"}
-            ${if (receipt.status == "pending") "<p>Till No    : 123456  </p>" else ""}
             ${if (receipt.status == "pending") "<p>Cinnabon (k) ltd </p>" else ""}
             ${if (receipt.status == "pending") "<p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>" else ""}
             <div class="straight-line"></div>
@@ -315,8 +314,8 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                 """
                     <div class="kra">
                         <p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>
-                        <p>SCU ID    : ${receipt.intrlData}</p>
-                        <p>SCU No    : ${receipt.intrlData}</p>
+                        <p>SCU ID    : ${receipt.scu_id}</p>
+                        <p>SCU No    : ${receipt.scu_no}</p>
                      </div>
                     """.trimIndent()
             }else ""

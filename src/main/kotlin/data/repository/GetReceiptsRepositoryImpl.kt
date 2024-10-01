@@ -20,14 +20,14 @@ class GetReceiptsRepositoryImpl(
     override // Function to get receipts
     suspend fun getReceipts(body: GetReceiptsReq): List<GetReceiptsResItem> = withContext(Dispatchers.IO) {
         val getReceipts: String = try {
-            KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/transactions") {
+            KtorClient.client.post("https://cinnabon-vm.ubuniworks.com/api/v1/transactions") {
                 val stationId = KeyValueStorage.get(key = "stationId")
                 contentType(ContentType.Application.Json)
                 setBody(
                     """
                     {
                         "type": "${body.copy(type = "paid").type}",
-                        "station": $stationId
+                        "station": 1
                     }
                 """.trimIndent()
                 )
@@ -37,7 +37,7 @@ class GetReceiptsRepositoryImpl(
             ""
         }
 
-        println(getReceipts)
+        println("Response receipts:$getReceipts")
         return@withContext try {
             Json.decodeFromString(getReceipts)
         }catch (e:Exception){
@@ -48,14 +48,14 @@ class GetReceiptsRepositoryImpl(
 
     override suspend fun getBills(body: GetReceiptsReq): List<GetReceiptsResItem> = withContext(Dispatchers.IO) {
         val getReceipts: String = try {
-            KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/transactions") {
+            KtorClient.client.post("https://cinnabon-vm.ubuniworks.com/api/v1/transactions") {
                 val stationId = KeyValueStorage.get(key = "stationId")
                 contentType(ContentType.Application.Json)
                 setBody(
                     """
                     {
                         "type": "${body.copy(type = "pending").type}",
-                        "station": $stationId
+                        "station": 1
                     }
                 """.trimIndent()
                 )  // This will automatically serialize the body using kotlinx.serialization
@@ -64,8 +64,8 @@ class GetReceiptsRepositoryImpl(
             e.printStackTrace()
             ""
         }
+        println("Response bills:$getReceipts")
 
-        println(getReceipts)
         return@withContext try {
             Json.decodeFromString(getReceipts)
         }catch (e:Exception){

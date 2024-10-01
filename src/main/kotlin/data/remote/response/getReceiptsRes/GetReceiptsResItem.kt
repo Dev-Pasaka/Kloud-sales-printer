@@ -42,5 +42,7 @@ data class GetReceiptsResItem(
     val totRcptNo: String? = null,
     val total_amount: String,
     val type: String,
-    val updated_at: String
+    val updated_at: String,
+    val scu_id: String? = null,
+    val scu_no: String? = null,
 )

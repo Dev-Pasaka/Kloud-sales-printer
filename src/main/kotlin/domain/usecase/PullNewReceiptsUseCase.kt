@@ -18,28 +18,32 @@ class PullNewReceiptsUseCase(
     private val generateReceipt: GenerateReceiptUseCase = GenerateReceiptUseCase()
 ) {
     suspend fun pullReceipts(){
-        val receipts = getReceiptsRepository.getReceipts(body = GetReceiptsReq())
-        receipts.forEach { receipt ->
-            val receiptId= receipt.id.toString() ?: UUID.randomUUID().toString()
-            val receiptString = receiptsRepository.convertJsonToFormattedReceiptString(receipt)
-            db.createReceipt(
-                printingStatusObj = Receipt(
-                    _id = receiptId,
-                    receiptNumber = receipt.id.toString() ?: "",
-                    user = receipt.payment_cashier?.name ?: "",
-                    date = receipt.created_at,
-                    time = receipt.created_at,
-                    data = receiptString,
-                    receiptName = "${receiptId}_receipt.png",
-                    url = receipt.qrurl ?: "No URL",
-                    status = PrintingStatus.PENDING.name
+        try {
+            val receipts = getReceiptsRepository.getReceipts(body = GetReceiptsReq())
+            receipts.forEach { receipt ->
+                val receiptId = receipt.id.toString() ?: UUID.randomUUID().toString()
+                val receiptString = receiptsRepository.convertJsonToFormattedReceiptString(receipt)
+                db.createReceipt(
+                    printingStatusObj = Receipt(
+                        _id = receiptId,
+                        receiptNumber = receipt.id.toString() ?: "",
+                        user = receipt.payment_cashier?.name ?: "",
+                        date = receipt.created_at,
+                        time = receipt.created_at,
+                        data = receiptString,
+                        receiptName = "${receiptId}_receipt.png",
+                        url = receipt.qrurl ?: "No URL",
+                        status = PrintingStatus.PENDING.name
                     )
-            )
-            generateReceipt.generateReceipt(
-                receiptContent = receiptString,
-                qrData = receipt.qrurl ?: "No URL",
-                receiptId = receiptId
-            )
+                )
+                generateReceipt.generateReceipt(
+                    receiptContent = receiptString,
+                    qrData = receipt.qrurl ?: "No URL",
+                    receiptId = receiptId
+                )
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
 
 

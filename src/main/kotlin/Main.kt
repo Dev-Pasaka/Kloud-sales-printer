@@ -6,13 +6,14 @@ import domain.usecase.ContinousPullOfBIllAndReceiptsUseCase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import presentation.app.App
+import utils.KeyValueStorage
 
 
 fun main() = runBlocking {
     application(
         exitProcessOnExit = true
     ) {
-        // Launch background tasks within the Compose lifecycle
+
         launch {
             ContinousPullOfBIllAndReceiptsUseCase().execute()
         }
