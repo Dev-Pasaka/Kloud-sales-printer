@@ -1,21 +1,32 @@
-
 package data.repository
 
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import data.remote.request.GetReceiptsReq
 import data.remote.response.getReceiptsRes.GetReceiptsResItem
 import domain.repository.ReceiptRepository
 import gui.ava.html.image.generator.HtmlImageGenerator
+import jpos.JposException
+import jpos.POSPrinter
+import jpos.POSPrinterConst
+import jpos.util.JposProperties
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.PDPage
+import org.apache.pdfbox.pdmodel.PDPageContentStream
+import org.apache.pdfbox.pdmodel.common.PDRectangle
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
+import org.apache.pdfbox.rendering.PDFRenderer
 import java.awt.*
 import java.awt.image.BufferedImage
-import java.awt.print.PageFormat
-import java.awt.print.Printable
+import java.awt.print.*
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
 import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -23,13 +34,16 @@ import javax.imageio.ImageIO
 import javax.print.*
 import javax.print.attribute.HashPrintRequestAttributeSet
 import javax.print.attribute.standard.Copies
+import javax.swing.JButton
+import javax.swing.JFrame
 
 
 class ReceiptRepositoryImpl() : ReceiptRepository {
     // Utility to get desktop path for receipts folder
-     fun getReceiptsFolderPath(): String {
+    fun getReceiptsFolderPath(): String {
         return Paths.get(System.getProperty("user.home"), "Desktop", "receipts").toString()
     }
+
     private fun ensureReceiptsFolderExists() {
         val receiptsFolder = Paths.get(getReceiptsFolderPath()).toFile()
         if (!receiptsFolder.exists()) {
@@ -46,7 +60,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
     }
 
 
-    private fun generateQRCodeImage(link: String, size: Int, receiptId: String,) {
+    private fun generateQRCodeImage(link: String, size: Int, receiptId: String) {
         // Define the main receipts folder and the subdirectory
         val receiptsFolderPath = Paths.get(getReceiptsFolderPath(), "qr_code_images").toString()
 
@@ -78,7 +92,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
     }
 
 
-     fun generateImage(html: String, receiptId: String) {
+    fun generateImage(html: String, receiptId: String) {
         // Ensure the receipts folder exists
         ensureReceiptsFolderExists()
 
@@ -89,7 +103,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         imageGenerator.loadHtml(html)
 
         // Set the size for the image
-        imageGenerator.setSize(Dimension(1000, imageGenerator.size.height))
+        imageGenerator.setSize(Dimension(100, imageGenerator.size.height))
 
         // Save the image as PNG to the desktop's receipts folder
         val desktopReceiptsPath = Paths.get(getReceiptsFolderPath(), "$receiptId-without-qr-receipt.png").toString()
@@ -122,8 +136,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         return if (!file.exists()) {
             println("Image saved at: $filePath")
             mergeImagesVertically(imagePath1, imagePath2, filePath)
-        }
-        else false
+        } else false
     }
 
     fun mergeImagesVertically(imagePath1: String, imagePath2: String, outputPath: String): Boolean {
@@ -169,32 +182,128 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
     override suspend fun printPNGImage(filePath: String): Pair<String, Boolean?> = withContext(Dispatchers.IO) {
         val file = File(filePath)
         if (!file.exists()) {
-            return@withContext (Pair("File not found: $filePath", false))
-
+            return@withContext Pair("File not found: $filePath", false)
         }
+
         println("Printing receipt: ${file.path}")
-        val printRequestAttributeSet = HashPrintRequestAttributeSet().apply {
-            add(Copies(1))
-        }
 
-        val printService = PrintServiceLookup.lookupDefaultPrintService() ?: run {
-            return@withContext Pair("No default printer found.", false)
-
-        }
-
-
-        val docPrintJob: DocPrintJob = printService.createPrintJob()
-
-        val flavor = DocFlavor.INPUT_STREAM.PNG
-        val doc: Doc = SimpleDoc(file.inputStream(), flavor, null)
 
         try {
-            docPrintJob.print(doc, printRequestAttributeSet)
-            println("Printing started " + filePath)
-            return@withContext Pair("Printing completed successfully.", true)
+            convertImageToPDF(
+                imagePath = filePath,
+                pdfPath = "${ReceiptRepositoryImpl().getReceiptsFolderPath()}output.pdf"
+            )
+            printPDF("${ReceiptRepositoryImpl().getReceiptsFolderPath()}output.pdf")
+            return@withContext Pair("Printing success: ", true)
         } catch (e: PrintException) {
             e.printStackTrace()
             return@withContext Pair("Printing failed: ${e.message}", false)
+        }
+    }
+
+
+
+    private fun convertImageToPDF(imagePath: String, pdfPath: String) {
+        try {
+            // Load the image
+            val image = ImageIO.read(File(imagePath))
+
+            // Create a new PDF document
+            PDDocument().use { document ->
+                // Get the dimensions of the PDF page
+                val pageWidth = PDRectangle.A4.width
+                val pageHeight = PDRectangle.A4.height
+
+                // Load the image into PDFBox
+                val pdfImage = PDImageXObject.createFromFile(imagePath, document)
+
+                // Calculate the number of pages needed
+                val totalPages = Math.ceil(pdfImage.height / pageHeight.toDouble()).toInt()
+
+                // Loop through and create pages for each segment of the image
+                for (pageIndex in 0 until totalPages) {
+                    // Create a new page
+                    val page = PDPage(PDRectangle.A4)
+                    document.addPage(page)
+
+                    // Create a content stream to write to the page
+                    PDPageContentStream(document, page).use { contentStream ->
+                        // Calculate the y position for the image segment
+                        val yPosition = -(pageIndex * pageHeight.toFloat()) // this positions the image correctly on each page
+
+                        // Calculate the height of the portion to draw
+                        val heightToDraw = Math.min(pdfImage.height - (pageIndex * pageHeight.toInt()), pageHeight.toInt())
+
+                        // Draw the image at the top-left corner without any margins
+                        contentStream.drawImage(pdfImage, 0f, yPosition, pdfImage.width.toFloat(), heightToDraw.toFloat())
+                    }
+                }
+
+                // Save the PDF to the specified path
+                document.save(pdfPath)
+            }
+
+            println("Image converted to PDF successfully: $pdfPath")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun printPDF(pdfPath: String) {
+        try {
+            // Load the PDF document
+            PDDocument.load(File(pdfPath)).use { document ->
+                val printJob = PrinterJob.getPrinterJob()
+                val pdfRenderer = PDFRenderer(document)
+
+                // Set up the printable object
+                val printable = object : Printable {
+                    override fun print(graphics: Graphics, pageFormat: java.awt.print.PageFormat, pageIndex: Int): Int {
+                        if (pageIndex >= document.numberOfPages) {
+                            return Printable.NO_SUCH_PAGE
+                        }
+
+                        val g2d = graphics as Graphics2D
+
+                        // Set the width for printing to 80 mm
+                        val pageWidth = 80f * 72f / 25.4f // convert 80 mm to points
+                        val pdfPage = document.getPage(pageIndex)
+                        val pdfWidth = pdfPage.mediaBox.width
+                        val pdfHeight = pdfPage.mediaBox.height
+
+                        // Log the width and height of the PDF page
+                        println("PDF Page Width: $pdfWidth, PDF Page Height: $pdfHeight")
+
+                        // Calculate scale factor based on the 80 mm width and minimum height
+                        val scaleX = pageWidth / pdfWidth
+                        val minHeight = 1200f
+                        val scaleY = minHeight / pdfHeight // Scale to fit minimum height
+
+                        // Use the smaller scale to maintain the aspect ratio
+                        val finalScale = minOf(scaleX, scaleY)
+
+                        // Log the scale factors
+                        println("ScaleX: $scaleX, ScaleY: $scaleY, Final Scale: $finalScale")
+
+                        // Set the graphics to scale
+                        g2d.scale(finalScale.toDouble(), finalScale.toDouble())
+
+                        // Render the page with the PDFRenderer
+                        pdfRenderer.renderPageToGraphics(pageIndex, g2d)
+
+                        return Printable.PAGE_EXISTS
+                    }
+                }
+
+                // Set up the print job
+                printJob.setPrintable(printable)
+
+                // Start the print job
+                printJob.print()
+                println("Printing completed successfully.")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -206,7 +315,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         val qrCodeFilePath = "qr_code_image.png" // Adjust the path as necessary
 
         // Generate and save the QR code image
-        generateQRCodeImage(receipt.qrurl ?: "No data ", 200, qrCodeFilePath) // 100x100 size for the QR code
+        generateQRCodeImage(receipt.qrurl ?: "No data ", 300, qrCodeFilePath) // 100x100 size for the QR code
 
         val itemsHtml = receipt.items.joinToString("") { item ->
             val itemTotal = item.price.toDouble() * item.qty.toDouble()
@@ -327,6 +436,127 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
 }
 
 
-suspend fun main(){
-    ReceiptRepositoryImpl().printPNGImage("/home/dev-pasaka/Desktop/receipts/receipts-with-qr/4_receipt.png")
+
+suspend fun main() {
+    // Load your image here
+    ReceiptRepositoryImpl().generateImage(
+        html = ReceiptRepositoryImpl().convertJsonToFormattedReceiptString(
+            GetReceiptsRepositoryImpl().getReceipts(GetReceiptsReq()).first()
+        ),
+        "1234"
+    )
+    val imagePath = "C:\\Users\\lenovo\\Desktop\\receipts\\receipts-with-qr\\8_receipt.png"
+
+    // Specify the output PDF path including the filename
+    val pdfPath = "C:\\Users\\lenovo\\Desktop\\receipts\\output.pdf"
+
+    // Convert image to PDF
+    convertImageToPDF(imagePath, pdfPath)
+
+    // Print the generated PDF
+    printPDF2(pdfPath)
+}
+
+fun convertImageToPDF(imagePath: String, pdfPath: String) {
+    try {
+        // Load the image
+        val image = ImageIO.read(File(imagePath))
+
+        // Create a new PDF document
+        PDDocument().use { document ->
+            // Get the dimensions of the PDF page
+            val pageWidth = PDRectangle.A4.width
+            val pageHeight = PDRectangle.A4.height
+
+            // Load the image into PDFBox
+            val pdfImage = PDImageXObject.createFromFile(imagePath, document)
+
+            // Calculate the number of pages needed
+            val totalPages = Math.ceil(pdfImage.height / pageHeight.toDouble()).toInt()
+
+            // Loop through and create pages for each segment of the image
+            for (pageIndex in 0 until totalPages) {
+                // Create a new page
+                val page = PDPage(PDRectangle.A4)
+                document.addPage(page)
+
+                // Create a content stream to write to the page
+                PDPageContentStream(document, page).use { contentStream ->
+                    // Calculate the y position for the image segment
+                    val yPosition = -(pageIndex * pageHeight.toFloat()) // this positions the image correctly on each page
+
+                    // Calculate the height of the portion to draw
+                    val heightToDraw = Math.min(pdfImage.height - (pageIndex * pageHeight.toInt()), pageHeight.toInt())
+
+                    // Draw the image at the top-left corner without any margins
+                    contentStream.drawImage(pdfImage, 0f, yPosition, pdfImage.width.toFloat(), heightToDraw.toFloat())
+                }
+            }
+
+            // Save the PDF to the specified path
+            document.save(pdfPath)
+        }
+
+        println("Image converted to PDF successfully: $pdfPath")
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun printPDF2(pdfPath: String) {
+    try {
+        // Load the PDF document
+        PDDocument.load(File(pdfPath)).use { document ->
+            val printJob = PrinterJob.getPrinterJob()
+            val pdfRenderer = PDFRenderer(document)
+
+            // Set up the printable object
+            val printable = object : Printable {
+                override fun print(graphics: Graphics, pageFormat: java.awt.print.PageFormat, pageIndex: Int): Int {
+                    if (pageIndex >= document.numberOfPages) {
+                        return Printable.NO_SUCH_PAGE
+                    }
+
+                    val g2d = graphics as Graphics2D
+
+                    // Set the width for printing to 80 mm
+                    val pageWidth = 80f * 72f / 25.4f // convert 80 mm to points
+                    val pdfPage = document.getPage(pageIndex)
+                    val pdfWidth = pdfPage.mediaBox.width
+                    val pdfHeight = pdfPage.mediaBox.height
+
+                    // Log the width and height of the PDF page
+                    println("PDF Page Width: $pdfWidth, PDF Page Height: $pdfHeight")
+
+                    // Calculate scale factor based on the 80 mm width and minimum height
+                    val scaleX = pageWidth / pdfWidth
+                    val minHeight = 1200f
+                    val scaleY = minHeight / pdfHeight // Scale to fit minimum height
+
+                    // Use the smaller scale to maintain the aspect ratio
+                    val finalScale = minOf(scaleX, scaleY)
+
+                    // Log the scale factors
+                    println("ScaleX: $scaleX, ScaleY: $scaleY, Final Scale: $finalScale")
+
+                    // Set the graphics to scale
+                    g2d.scale(finalScale.toDouble(), finalScale.toDouble())
+
+                    // Render the page with the PDFRenderer
+                    pdfRenderer.renderPageToGraphics(pageIndex, g2d)
+
+                    return Printable.PAGE_EXISTS
+                }
+            }
+
+            // Set up the print job
+            printJob.setPrintable(printable)
+
+            // Start the print job
+            printJob.print()
+            println("Printing completed successfully.")
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }

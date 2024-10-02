@@ -5,15 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7bc01e3-ee26-4130-9743-a50d96bf49e6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/JposPrinterJIOx64.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/JposPrinterJavaPOS.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/JposPrinterReceiptTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/jcl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/jpos.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/jpos113-controls.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/posprinter.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/posprinter.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/xercesimpl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/xml-apis.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppDatabase.db" beforeDir="false" afterPath="$PROJECT_DIR$/AppDatabase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsRes/GetReceiptsResItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsRes/GetReceiptsResItem.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewBillsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewBillsUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewReceiptsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewReceiptsUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/utils/KeyValueStorage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/utils/KeyValueStorage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,18 +60,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build setup" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="compose desktop" type="c8890929:TasksNode$1" />
               </path>
             </expand>
@@ -91,12 +89,12 @@
     &quot;assignee&quot;: &quot;Dev-Pasaka&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Dev-Pasaka/Kloud-sales-printer.git&quot;,
-    &quot;accountId&quot;: &quot;8b084b45-78e5-48ef-8768-fcd2e1641acb&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Dev-Pasaka/Kloud-sales-printer.git",
+    "accountId": "d64b17e8-127e-4e08-bcff-4341093cc986"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -110,7 +108,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.Build Kloud-sales-printer.executor": "Run",
     "Gradle.Build KoudSalesPrinter.executor": "Run",
+    "Gradle.Kloud-sales-printer [packageMsi].executor": "Run",
     "Gradle.KoudSalesPrinter [buildDependents].executor": "Run",
     "Gradle.KoudSalesPrinter [build].executor": "Run",
     "Gradle.KoudSalesPrinter [flattenJars].executor": "Run",
@@ -155,16 +155,16 @@
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/dev-pasaka/Downloads/KoudSalesPrinter",
+    "last_opened_file_path": "C:/Users/lenovo/IdeaProjects/Kloud-sales-printer/libs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "build.tools",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "stored_options": "{\"dialectConnections\":{\"app.cash.sqldelight.dialects.sqlite_3_18.SqliteDialect\":{\"orderedOptions\":[],\"serializedProperties\":{}}}}",
     "vue.rearranger.settings.migration": "true"
   },
@@ -176,6 +176,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lenovo\IdeaProjects\Kloud-sales-printer\libs" />
       <recent name="$PROJECT_DIR$/src/main/resources/drawables" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -189,8 +190,8 @@
       <recent name="data.remote.response.getReceiptsRes" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar">
-    <configuration name="KoudSalesPrinter [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.Kloud-sales-printer [packageMsi]">
+    <configuration name="Kloud-sales-printer [packageMsi]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -201,29 +202,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="buildDependents" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="KoudSalesPrinter [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
+            <option value="packageMsi" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -267,23 +246,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ReceiptRepositoryImplKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="data.repository.ReceiptRepositoryImplKt" />
+      <module name="KloudSalesPrinter.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Kloud-sales-printer [packageMsi]" />
         <item itemvalue="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar" />
         <item itemvalue="Gradle.KoudSalesPrinter [packageComposeApp]" />
-        <item itemvalue="Gradle.KoudSalesPrinter [buildDependents]" />
-        <item itemvalue="Gradle.KoudSalesPrinter [build]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.ReceiptRepositoryImplKt" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

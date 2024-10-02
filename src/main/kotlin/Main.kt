@@ -11,7 +11,7 @@ import utils.KeyValueStorage
 
 fun main() = runBlocking {
     application(
-        exitProcessOnExit = true
+        exitProcessOnExit = false
     ) {
 
         launch {

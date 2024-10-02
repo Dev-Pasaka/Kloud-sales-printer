@@ -166,6 +166,12 @@ dependencies {
     implementation("org.apache.pdfbox:pdfbox-tools:2.0.24") // Required for PDF rendering
     implementation("com.itextpdf:itext7-core:7.1.16")
 
+    implementation(files("libs/jcl.jar"))
+    implementation(files("libs/jpos113-controls.jar"))
+    implementation(files("libs/xercesimpl.jar"))
+    implementation(files("libs/xml-apis.jar"))
+    implementation(files("libs/JposPrinterJavaPOS.jar"))
+
 
 
 
