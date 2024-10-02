@@ -17,7 +17,7 @@ class ContinousPrintReceiptsUseCase(
                 e.printStackTrace()
                 if (e == CancellationException()) throw e else null
             }
-            delay(10000)
+            delay(1000)
         }
 
     }

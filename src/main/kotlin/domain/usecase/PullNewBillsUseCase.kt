@@ -9,18 +9,26 @@ import domain.model.PrintingStatus
 import domain.repository.GetReceiptsRepository
 import domain.repository.ReceiptDBRepository
 import domain.repository.ReceiptRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class PullNewBillsUseCase(
     private val receiptsRepository: ReceiptRepository = ReceiptRepositoryImpl(),
     private val getReceiptsRepository: GetReceiptsRepository = GetReceiptsRepositoryImpl(),
     private val db: ReceiptDBRepository = ReceiptDBRepositoryImpl(),
-    private val generateReceipt: GenerateReceiptUseCase = GenerateReceiptUseCase()
-) {
+    private val generateReceipt: GenerateReceiptUseCase = GenerateReceiptUseCase(),
+    private val printReceiptUseCase: PrintReceiptUseCase = PrintReceiptUseCase(),
+
+    ) {
     suspend fun pullBills(){
         try {
             val receipts = getReceiptsRepository.getBills(body = GetReceiptsReq())
             receipts.forEach { receipt ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    getReceiptsRepository.updatePrintedReceiptOrBill(receipt.id.toString())
+                }
                 val receiptId = receipt.id.toString()
                 val receiptString = receiptsRepository.convertJsonToFormattedReceiptString(receipt)
                 db.createReceipt(
@@ -41,6 +49,8 @@ class PullNewBillsUseCase(
                     qrData = receipt.qrurl ?: "No URL",
                     receiptId = receiptId
                 )
+                val path = "${ReceiptRepositoryImpl().getReceiptsFolderPath()}/receipts-with-qr/${receipt.id}_receipt.png"
+                printReceiptUseCase.printReceipt(path)
             }
         }catch (e:Exception){
             e.printStackTrace()

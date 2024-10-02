@@ -5,11 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7bc01e3-ee26-4130-9743-a50d96bf49e6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsRes/UpdatedPrintedReceiptsRes.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppDatabase.db" beforeDir="false" afterPath="$PROJECT_DIR$/AppDatabase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppDatabase.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptDBRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptDBRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/repository/GetReceiptsRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/repository/GetReceiptsRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ContinousPrintReceiptsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ContinousPrintReceiptsUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ContinousPullOfBIllAndReceiptsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ContinousPullOfBIllAndReceiptsUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PrintPendingReceiptsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PrintPendingReceiptsUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewBillsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewBillsUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewReceiptsUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewReceiptsUseCase.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,9 +81,9 @@
       <list>
         <option value="Kotlin File" />
         <option value="Kotlin Interface" />
-        <option value="Kotlin Data Class" />
         <option value="Kotlin Class" />
         <option value="Kotlin Object" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
@@ -93,6 +102,9 @@
     &quot;accountId&quot;: &quot;d64b17e8-127e-4e08-bcff-4341093cc986&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -131,6 +143,7 @@
     &quot;Kotlin.KafkaConsumerServiceKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.OSDirectoryKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.PrintPendingReceiptsUseCaseKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.PrintReceiptUseCaseKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.PullNewReceiptsUseCaseKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.ReceiptDBRepositoryImplKt.executor&quot;: &quot;Run&quot;,
@@ -188,29 +201,7 @@
       <recent name="data.remote.response.getReceiptsRes" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar">
-    <configuration name="Kloud-sales-printer [packageMsi]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="packageMsi" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Gradle.KoudSalesPrinter [packageComposeApp]">
     <configuration name="KoudSalesPrinter [packageComposeApp]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -244,8 +235,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReceiptRepositoryImplKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="data.repository.ReceiptRepositoryImplKt" />
+    <configuration name="PrintPendingReceiptsUseCaseKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="domain.usecase.PrintPendingReceiptsUseCaseKt" />
+      <module name="KloudSalesPrinter.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReceiptDBRepositoryImplKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="data.repository.ReceiptDBRepositoryImplKt" />
       <module name="KloudSalesPrinter.main" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -253,11 +251,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar" />
         <item itemvalue="Gradle.KoudSalesPrinter [packageComposeApp]" />
         <item itemvalue="Kotlin.MainKt" />
-        <item itemvalue="Gradle.Kloud-sales-printer [packageMsi]" />
-        <item itemvalue="Kotlin.ReceiptRepositoryImplKt" />
+        <item itemvalue="Kotlin.PrintPendingReceiptsUseCaseKt" />
+        <item itemvalue="Kotlin.ReceiptDBRepositoryImplKt" />
+        <item itemvalue="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar" />
       </list>
     </recent_temporary>
   </component>
@@ -301,6 +299,14 @@
           <properties class="de.vandermeer.asciitable.AsciiTableException" package="de.vandermeer.asciitable" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/build.gradle.kts</url>
+          <line>87</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

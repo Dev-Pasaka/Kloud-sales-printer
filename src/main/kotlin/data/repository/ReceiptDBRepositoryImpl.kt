@@ -119,13 +119,11 @@ class ReceiptDBRepositoryImpl(
 
 
 suspend fun main(){
-   /* val result = ReceiptDBRepositoryImpl().updatePrintingStatus(receiptId = "904d4cf2-1e74-40f1-a630-7e802f1cbe0f", printingStatus = PrintingStatus.SUCCESS)
-    println(result)*/
+    val result = ReceiptDBRepositoryImpl().updatePrintingStatus(receiptId = "1", printingStatus = PrintingStatus.SUCCESS)
+    println(result)
 
     ReceiptDBRepositoryImpl()
         .getAllReceipts().forEach {
-            ReceiptDBRepositoryImpl().delete(
-                it.id
-            )
+            println(it.status)
         }
 }

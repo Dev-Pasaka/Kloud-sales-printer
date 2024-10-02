@@ -193,8 +193,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                 imagePath = filePath,
                 pdfPath = "${ReceiptRepositoryImpl().getReceiptsFolderPath()}output.pdf"
             )
-            printPDF("${ReceiptRepositoryImpl().getReceiptsFolderPath()}output.pdf")
-            return@withContext Pair("Printing success: ", true)
+            return@withContext printPDF("${ReceiptRepositoryImpl().getReceiptsFolderPath()}output.pdf")
         } catch (e: PrintException) {
             e.printStackTrace()
             return@withContext Pair("Printing failed: ${e.message}", false)
@@ -249,7 +248,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         }
     }
 
-    private fun printPDF(pdfPath: String) {
+    private fun printPDF(pdfPath: String):Pair<String, Boolean> {
         try {
             // Load the PDF document
             PDDocument.load(File(pdfPath)).use { document ->
@@ -300,10 +299,11 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
 
                 // Start the print job
                 printJob.print()
-                println("Printing completed successfully.")
+                return Pair("Printing success: ", true)
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            return Pair("Printing success: ", true)
         }
     }
 

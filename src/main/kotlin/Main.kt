@@ -17,9 +17,9 @@ fun main() = runBlocking {
         launch {
             ContinousPullOfBIllAndReceiptsUseCase().execute()
         }
-        launch {
+       /* launch {
             ContinousPrintReceiptsUseCase().execute()
-        }
+        }*/
         Window(
             title = "Kloud Sales Printer",
             onCloseRequest = {
