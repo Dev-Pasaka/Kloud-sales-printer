@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7bc01e3-ee26-4130-9743-a50d96bf49e6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/JposPrinterJIOx64.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/JposPrinterJavaPOS.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/JposPrinterReceiptTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/jcl.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/jpos.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/jpos113-controls.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/posprinter.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/posprinter.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/xercesimpl.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/xml-apis.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppDatabase.db" beforeDir="false" afterPath="$PROJECT_DIR$/AppDatabase.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +46,18 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build setup" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="KloudSalesPrinter" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="compose desktop" type="c8890929:TasksNode$1" />
               </path>
             </expand>
@@ -89,12 +87,12 @@
     &quot;assignee&quot;: &quot;Dev-Pasaka&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Dev-Pasaka/Kloud-sales-printer.git",
-    "accountId": "d64b17e8-127e-4e08-bcff-4341093cc986"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Dev-Pasaka/Kloud-sales-printer.git&quot;,
+    &quot;accountId&quot;: &quot;d64b17e8-127e-4e08-bcff-4341093cc986&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -106,74 +104,74 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build Kloud-sales-printer.executor": "Run",
-    "Gradle.Build KoudSalesPrinter.executor": "Run",
-    "Gradle.Kloud-sales-printer [packageMsi].executor": "Run",
-    "Gradle.KoudSalesPrinter [buildDependents].executor": "Run",
-    "Gradle.KoudSalesPrinter [build].executor": "Run",
-    "Gradle.KoudSalesPrinter [flattenJars].executor": "Run",
-    "Gradle.KoudSalesPrinter [generateSqlDelightInterface].executor": "Run",
-    "Gradle.KoudSalesPrinter [jar].executor": "Run",
-    "Gradle.KoudSalesPrinter [packageComposeApp].executor": "Run",
-    "Gradle.KoudSalesPrinter [packageDeb].executor": "Run",
-    "Gradle.KoudSalesPrinter [packageDistributionForCurrentOS].executor": "Run",
-    "Gradle.KoudSalesPrinter [packageMsi].executor": "Run",
-    "Gradle.KoudSalesPrinter [packageReleaseDeb].executor": "Run",
-    "Gradle.KoudSalesPrinter [package].executor": "Run",
-    "Gradle.KoudSalesPrinter [run].executor": "Run",
-    "Gradle.Upgrade Gradle wrapper.executor": "Run",
-    "Gradle.desktop.executor": "Run",
-    "JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar.executor": "Run",
-    "JAR Application.voyager-core-desktop-1.0.0.jar.executor": "Run",
-    "Kotlin.BackgroundTaskManagerKt.executor": "Run",
-    "Kotlin.Consumer2Kt.executor": "Run",
-    "Kotlin.GetReceiptsRepositoryImplKt.executor": "Run",
-    "Kotlin.KafkaConsumerServiceKt.executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "Kotlin.OSDirectoryKt.executor": "Run",
-    "Kotlin.PrintReceiptUseCaseKt.executor": "Run",
-    "Kotlin.PullNewReceiptsUseCaseKt.executor": "Run",
-    "Kotlin.ReceiptDBRepositoryImplKt.executor": "Run",
-    "Kotlin.ReceiptRepositoryImplKt.executor": "Run",
-    "Kotlin.ReceiptRepositoryKt.executor": "Run",
-    "Kotlin.StartAppKt (1).executor": "Run",
-    "Kotlin.StartAppKt.executor": "Run",
-    "Kotlin.Test2Kt.executor": "Run",
-    "Kotlin.WatchNewReceiptsUseCaseKt.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.google.cloudcode.ide_session_index": "20241001_0001",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/lenovo/IdeaProjects/Kloud-sales-printer/libs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "stored_options": "{\"dialectConnections\":{\"app.cash.sqldelight.dialects.sqlite_3_18.SqliteDialect\":{\"orderedOptions\":[],\"serializedProperties\":{}}}}",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build Kloud-sales-printer.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build KoudSalesPrinter.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Kloud-sales-printer [packageMsi].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [buildDependents].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [flattenJars].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [generateSqlDelightInterface].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [jar].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [packageComposeApp].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [packageDeb].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [packageDistributionForCurrentOS].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [packageMsi].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [packageReleaseDeb].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [package].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.KoudSalesPrinter [run].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Upgrade Gradle wrapper.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.desktop.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.voyager-core-desktop-1.0.0.jar.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.BackgroundTaskManagerKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.Consumer2Kt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.GetReceiptsRepositoryImplKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.KafkaConsumerServiceKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.OSDirectoryKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.PrintReceiptUseCaseKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.PullNewReceiptsUseCaseKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.ReceiptDBRepositoryImplKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.ReceiptRepositoryImplKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.ReceiptRepositoryKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.StartAppKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.StartAppKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.Test2Kt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.WatchNewReceiptsUseCaseKt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.cloudcode.ide_session_index&quot;: &quot;20241001_0001&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lenovo/IdeaProjects/Kloud-sales-printer/libs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;stored_options&quot;: &quot;{\&quot;dialectConnections\&quot;:{\&quot;app.cash.sqldelight.dialects.sqlite_3_18.SqliteDialect\&quot;:{\&quot;orderedOptions\&quot;:[],\&quot;serializedProperties\&quot;:{}}}}&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lenovo\IdeaProjects\Kloud-sales-printer\libs" />
@@ -190,7 +188,7 @@
       <recent name="data.remote.response.getReceiptsRes" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Kloud-sales-printer [packageMsi]">
+  <component name="RunManager" selected="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar">
     <configuration name="Kloud-sales-printer [packageMsi]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -255,10 +253,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Kloud-sales-printer [packageMsi]" />
         <item itemvalue="JAR Application.KloudSalesPrinter-1.0-SNAPSHOT.jar" />
         <item itemvalue="Gradle.KoudSalesPrinter [packageComposeApp]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.Kloud-sales-printer [packageMsi]" />
         <item itemvalue="Kotlin.ReceiptRepositoryImplKt" />
       </list>
     </recent_temporary>
