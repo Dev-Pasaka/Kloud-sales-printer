@@ -52,7 +52,7 @@ class PullNewReceiptsUseCase(
                     receiptId = receiptId
                 )
                 val path = "${ReceiptRepositoryImpl().getReceiptsFolderPath()}/receipts-with-qr/${receipt.id}_receipt.png"
-                printReceiptUseCase.printReceipt(path)
+                ReceiptRepositoryImpl().generateImage(receiptString, receiptId)
             }
         }catch (e:Exception){
             e.printStackTrace()

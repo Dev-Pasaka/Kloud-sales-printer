@@ -50,9 +50,7 @@ import java.time.format.DateTimeFormatter
 import javax.imageio.ImageIO
 import javax.print.*
 import javax.print.attribute.HashPrintRequestAttributeSet
-import javax.print.attribute.standard.Copies
-import javax.print.attribute.standard.PageRanges
-import javax.print.attribute.standard.Sides
+import javax.print.attribute.standard.*
 import javax.swing.JButton
 import javax.swing.JFrame
 import javax.swing.text.html.HTMLDocument
@@ -168,22 +166,20 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
     override suspend fun printPNGImage(filePath: String): Pair<String, Boolean?> = withContext(Dispatchers.IO) {
         val file = File(filePath)
         if (!file.exists()) {
-            return@withContext (Pair("File not found: $filePath", false))
-
+            return@withContext Pair("File not found: $filePath", false)
         }
         println("Printing receipt: ${file.path}")
         val printRequestAttributeSet = HashPrintRequestAttributeSet().apply {
             add(Copies(1))
+            add(MediaSizeName.ISO_A4) // Ensure the correct paper size is set
+            add(OrientationRequested.PORTRAIT) // Set the correct orientation
         }
 
         val printService = PrintServiceLookup.lookupDefaultPrintService() ?: run {
             return@withContext Pair("No default printer found.", false)
-
         }
 
-
         val docPrintJob: DocPrintJob = printService.createPrintJob()
-
         val flavor = DocFlavor.INPUT_STREAM.PNG
         val doc: Doc = SimpleDoc(file.inputStream(), flavor, null)
 
@@ -196,6 +192,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             return@withContext Pair("Printing failed: ${e.message}", false)
         }
     }
+
     fun mergeImagesVertically(imagePath1: String, imagePath2: String, outputPath: String): Boolean {
         return try {
             // Load the two images
@@ -399,10 +396,11 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                     """.trimIndent()
             }else " "
         }
-        <img src="file://$qrCode" alt="QR Code"></img>
+        <img src="file:///$qrCode" alt="QR Code"></img>
         </body>
         </html>
     """.trimIndent()
+
     }
 }
 
@@ -413,7 +411,7 @@ suspend fun main() {
     ).last()
 
     val html = ReceiptRepositoryImpl().convertJsonToFormattedReceiptString(receipt)
-    val generateImage = ReceiptRepositoryImpl().generateImage(html = html, receiptId = "1")
+    val generateImage = ReceiptRepositoryImpl().generateImage(html = html, receiptId = "")
 
 
 }
