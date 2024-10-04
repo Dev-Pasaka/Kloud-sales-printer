@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 interface ReceiptRepository {
-    fun generateReceiptWithQR(receiptContent: String, qrLink: String,receiptId:String):Boolean
+    suspend fun generateReceiptWithQR(receiptContent: String, qrLink: String, receiptId:String):Boolean
     suspend fun printPNGImage(filePath: String) : Pair<String, Boolean?>
     fun convertJsonToFormattedReceiptString(receipt: GetReceiptsResItem): String
 

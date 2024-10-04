@@ -171,6 +171,13 @@ dependencies {
     implementation(files("libs/xercesimpl.jar"))
     implementation(files("libs/xml-apis.jar"))
     implementation(files("libs/JposPrinterJavaPOS.jar"))
+    //Html to pdf
+    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
+    implementation("com.openhtmltopdf:openhtmltopdf-slf4j:1.0.10")
+    //Printing html
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:9.9.5")
+
+
 
 
 
