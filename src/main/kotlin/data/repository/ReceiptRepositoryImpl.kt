@@ -131,7 +131,9 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         // Save the image as PNG to the desktop's receipts folder
         val desktopReceiptsPath = Paths.get(getReceiptsFolderPath(), "receipts-with-qr/${receiptId}_receipt.png").toString()
         imageGenerator.saveAsImage(desktopReceiptsPath)
+        val file = File(desktopReceiptsPath)
         printPNGImage(desktopReceiptsPath)
+
     }
 
 
@@ -320,7 +322,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             <title>Receipt</title>
             <style>
                 body {
-                    
+                    font-family: Arial;
                     width: 400px;
                     font-size: 18px;
                     margin: 0 auto;
@@ -361,7 +363,10 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         <body>
             <div class="header">
                 <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130"></img>
+                <p>The Mask Food and Beverages Ltd</p>
+                <p>PIN No. P052237559Z</p>
                 <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br></br>Nairobi, Kenya</p>
+                <br>
             </div>
             <h2 style="text-align: center; font-size: 24px;">${receiptType.padEnd(50)}</h2>
             <p>${if (receipt.status == "pending") "BILL No: ${receipt.id}" else "Receipt No: ${receipt.id}"}</p>
@@ -382,9 +387,8 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             <div class="straight-line"></div>
             $footerHtml
             ${if (receipt.status == "paid") "<p>Payment Method: Cash  </p>" else "<p><b>Amount Due:  ${receipt.total_amount}</b></p>"}
-            ${if (receipt.status == "pending") "<p>Cinnabon (k) ltd </p>" else ""}
             ${if (receipt.status == "pending") "<p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>" else ""}
-            <div class="straight-line"></div>
+            <br>
             ${
             if (receipt.status == "paid"){
                 """
@@ -396,7 +400,13 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                     """.trimIndent()
             }else " "
         }
-        <img src="file:///$qrCode" alt="QR Code"></img>
+        ${
+            if (receipt.status == "paid") "<img src=\"file:///$qrCode\" alt=\"QR Code\"></img>" else ""
+        }
+        <p>Kloud Sales POS</p>
+        <p>info@ubuniworks.com</p>
+        <p>+254716266205</p>
+        <p>Powered by Ubuniworks Solutions</p>
         </body>
         </html>
     """.trimIndent()

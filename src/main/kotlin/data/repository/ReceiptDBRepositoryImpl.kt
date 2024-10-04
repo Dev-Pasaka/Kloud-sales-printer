@@ -20,7 +20,7 @@ class ReceiptDBRepositoryImpl(
 
 
 
-    override suspend fun createReceipt(receiptObj: Receipt): Boolean {
+    override suspend fun createReceipt(receiptObj: Receipt, receiptString:String,receiptId:String): Boolean {
         return withContext(Dispatchers.IO) {
             try {
                 queries.insertReceipt(
@@ -34,6 +34,7 @@ class ReceiptDBRepositoryImpl(
                     receiptObj.url,
                     receiptObj.status
                 )
+                ReceiptRepositoryImpl().generateImage(receiptString, receiptId)
                 true
             } catch (e: Exception) {
                 e.printStackTrace()

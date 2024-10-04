@@ -7,7 +7,7 @@ import domain.model.PrintingStatus
 import kotlinx.coroutines.flow.Flow
 
 interface ReceiptDBRepository {
-    suspend fun createReceipt(printingStatusObj: Receipt): Boolean
+    suspend fun createReceipt(printingStatusObj: Receipt, receiptString:String,receiptId:String): Boolean
     suspend fun delete(id:String):Boolean
     suspend fun getReceiptLogById(id: String): PrintingLogs?
     suspend fun getAllReceipts(): List<PrintingLogs>

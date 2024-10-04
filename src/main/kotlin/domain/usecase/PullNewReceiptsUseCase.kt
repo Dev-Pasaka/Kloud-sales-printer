@@ -44,15 +44,16 @@ class PullNewReceiptsUseCase(
                         receiptName = "${receiptId}_receipt.png",
                         url = receipt.qrurl ?: "No URL",
                         status = PrintingStatus.PENDING.name
-                    )
+                    ),
+                    receiptString = receiptString,
+                    receiptId = receiptId
                 )
                 generateReceipt.generateReceipt(
                     receiptContent = receiptString,
                     qrData = receipt.qrurl ?: "No URL",
                     receiptId = receiptId
                 )
-                val path = "${ReceiptRepositoryImpl().getReceiptsFolderPath()}/receipts-with-qr/${receipt.id}_receipt.png"
-                ReceiptRepositoryImpl().generateImage(receiptString, receiptId)
+
             }
         }catch (e:Exception){
             e.printStackTrace()
