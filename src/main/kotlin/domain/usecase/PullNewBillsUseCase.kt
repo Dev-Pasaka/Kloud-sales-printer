@@ -18,7 +18,6 @@ class PullNewBillsUseCase(
     private val receiptsRepository: ReceiptRepository = ReceiptRepositoryImpl(),
     private val getReceiptsRepository: GetReceiptsRepository = GetReceiptsRepositoryImpl(),
     private val db: ReceiptDBRepository = ReceiptDBRepositoryImpl(),
-    private val generateReceipt: GenerateReceiptUseCase = GenerateReceiptUseCase(),
     private val printReceiptUseCase: PrintReceiptUseCase = PrintReceiptUseCase(),
 
     ) {
@@ -46,11 +45,6 @@ class PullNewBillsUseCase(
                         status = PrintingStatus.PENDING.name
                     ),
                     receiptString = receiptString,
-                    receiptId = receiptId
-                )
-                generateReceipt.generateReceipt(
-                    receiptContent = receiptString,
-                    qrData = receipt.qrurl ?: "No URL",
                     receiptId = receiptId
                 )
             }

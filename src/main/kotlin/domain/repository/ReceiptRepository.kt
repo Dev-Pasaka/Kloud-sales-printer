@@ -3,6 +3,7 @@ package domain.repository
 import data.dto.response.ReceiptRes
 import data.remote.request.GetReceiptsReq
 import data.remote.response.getReceiptsRes.GetReceiptsResItem
+import data.remote.response.getZReport.GetZreportRes
 import data.repository.GetReceiptsRepositoryImpl
 import data.repository.ReceiptRepositoryImpl
 import kotlinx.coroutines.flow.Flow
@@ -13,9 +14,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 interface ReceiptRepository {
-    suspend fun generateReceiptWithQR(receiptContent: String, qrLink: String, receiptId:String):Boolean
     suspend fun printPNGImage(filePath: String) : Pair<String, Boolean?>
     fun convertJsonToFormattedReceiptString(receipt: GetReceiptsResItem): String
+    fun convertJsonToFormattedZReportString(zReport: GetZreportRes): String
 
 }
 

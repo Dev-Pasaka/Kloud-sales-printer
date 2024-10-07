@@ -6,7 +6,6 @@ import data.local.entries.Receipt
 import domain.model.PrintingLogs
 import domain.model.PrintingStatus
 import domain.repository.ReceiptDBRepository
-import domain.usecase.GenerateReceiptUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

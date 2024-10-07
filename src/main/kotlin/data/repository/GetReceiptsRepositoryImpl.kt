@@ -3,6 +3,7 @@ package data.repository
 import data.remote.request.GetReceiptsReq
 import data.remote.response.getReceiptsRes.GetReceiptsResItem
 import data.remote.response.getReceiptsRes.UpdatedPrintedReceiptsRes
+import data.remote.response.getZReport.GetZreportRes
 import domain.repository.GetReceiptsRepository
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -90,18 +91,41 @@ class GetReceiptsRepositoryImpl(
 
 
     }
+
+    override suspend fun getZReport(): GetZreportRes? = withContext(Dispatchers.IO) {
+        val getZReports: String = try {
+            KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/zreport") {
+                contentType(ContentType.Application.Json)
+                setBody(
+                    """
+                        {
+                            "user_id": 2,
+                            "station": ${1},
+                            "cash": ${10000},
+                            "reprint": ${true}
+                        }
+                """.trimIndent()
+                )
+            }.bodyAsText()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+        println("Response bills:$getZReports")
+
+        return@withContext try {
+            Json.decodeFromString<GetZreportRes>(getZReports)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }
 
 suspend fun main() {
-    val receipts = GetReceiptsRepositoryImpl().getBills(
-        body = GetReceiptsReq(
-            type = "paid",
-            station = 1
-        )
-    ).first()
+    val receipts = GetReceiptsRepositoryImpl().getZReport()
 
-    val formattedReceipt = ReceiptRepositoryImpl().convertJsonToFormattedReceiptString(receipts)
-    println(formattedReceipt)
+    println(receipts)
 
 
 }

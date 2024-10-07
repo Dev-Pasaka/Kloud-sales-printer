@@ -4,29 +4,20 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import com.itextpdf.io.image.ImageData
-import com.itextpdf.io.image.ImageDataFactory
-import com.itextpdf.kernel.pdf.PdfDocument
-import com.itextpdf.kernel.pdf.PdfWriter
-import com.itextpdf.layout.Document
-import com.itextpdf.layout.element.Image
-import com.itextpdf.layout.element.Paragraph
-import com.itextpdf.layout.element.Table
-import com.itextpdf.layout.property.TextAlignment
-import com.itextpdf.layout.property.UnitValue
-import com.itextpdf.text.pdf.BaseFont
-import com.lowagie.text.alignment.HorizontalAlignment
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
+
 import data.remote.request.GetReceiptsReq
 import data.remote.response.getReceiptsRes.GetReceiptsResItem
+import data.remote.response.getZReport.GetZreportRes
 import domain.repository.ReceiptRepository
 import gui.ava.html.image.generator.HtmlImageGenerator
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import jpos.JposException
 import jpos.POSPrinter
 import jpos.POSPrinterConst
 import jpos.util.JposProperties
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
@@ -37,6 +28,8 @@ import org.apache.pdfbox.rendering.PDFRenderer
 import org.xhtmlrenderer.pdf.ITextFontResolver
 import org.xhtmlrenderer.pdf.ITextRenderer
 import org.xhtmlrenderer.swing.Java2DRenderer
+import utils.KeyValueStorage
+import utils.KtorClient
 import java.awt.*
 import java.awt.image.BufferedImage
 import java.awt.print.*
@@ -56,6 +49,7 @@ import javax.swing.JFrame
 import javax.swing.text.html.HTMLDocument
 import javax.swing.text.html.HTMLEditorKit
 import javax.swing.text.html.StyleSheet
+import kotlin.time.Duration.Companion.seconds
 
 
 class ReceiptRepositoryImpl() : ReceiptRepository {
@@ -129,40 +123,37 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         imageGenerator.setSize(Dimension(100, imageGenerator.size.height))
 
         // Save the image as PNG to the desktop's receipts folder
-        val desktopReceiptsPath = Paths.get(getReceiptsFolderPath(), "receipts-with-qr/${receiptId}_receipt.png").toString()
+        val desktopReceiptsPath =
+            Paths.get(getReceiptsFolderPath(), "receipts-with-qr/${receiptId}_receipt.png").toString()
         imageGenerator.saveAsImage(desktopReceiptsPath)
         val file = File(desktopReceiptsPath)
         printPNGImage(desktopReceiptsPath)
 
     }
 
-
-    override suspend fun generateReceiptWithQR(receiptContent: String, qrLink: String, receiptId: String): Boolean {
-
-        val receiptsFolderPath = Paths.get(getReceiptsFolderPath(), "receipts-with-qr").toString()
+    suspend fun generateZReportImage(html: String) {
+        // Ensure the receipts folder exists
+        val receiptsFolderPath = Paths.get(getReceiptsFolderPath(), "ZReports").toString()
 
         // Ensure the receipts subdirectory exists
         ensureDirectoryExists(receiptsFolderPath)
 
-        val filePath = Paths.get("${getReceiptsFolderPath()}/receipts-with-qr", "${receiptId}_receipt.png").toString()
-        val file = File(filePath)
+        // Create an instance of HtmlImageGenerator
+        val imageGenerator = HtmlImageGenerator()
 
-        // Check if the image file already exists
-        if (!file.exists()) {
-            // Save the image as PNG
-            generateImage(html = receiptContent, receiptId)
-            println("Image saved as: $filePath")
-        } else {
-            println("Image already exists: $filePath")
-        }
+        // Load HTML content
+        imageGenerator.loadHtml(html)
 
-        val imagePath1 = Paths.get(getReceiptsFolderPath(), "$receiptId-without-qr-receipt.png").toString()
-        val imagePath2 = Paths.get(getReceiptsFolderPath(), "qr_code_images", "qr-code-image.png").toString()
+        // Set the size for the image
+        imageGenerator.setSize(Dimension(400, imageGenerator.size.height))
 
-        return if (!file.exists()) {
-            println("Image saved at: $filePath")
-            mergeImagesVertically(imagePath1, imagePath2, filePath)
-        } else false
+        // Save the image as PNG to the desktop's receipts folder
+        val desktopReceiptsPath =
+            Paths.get(getReceiptsFolderPath(), "ZReports/${System.currentTimeMillis()}_zreport.png").toString()
+        imageGenerator.saveAsImage(desktopReceiptsPath)
+        val file = File(desktopReceiptsPath)
+        printPNGImage(desktopReceiptsPath)
+
     }
 
     override suspend fun printPNGImage(filePath: String): Pair<String, Boolean?> = withContext(Dispatchers.IO) {
@@ -192,83 +183,6 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         } catch (e: PrintException) {
             e.printStackTrace()
             return@withContext Pair("Printing failed: ${e.message}", false)
-        }
-    }
-
-    fun mergeImagesVertically(imagePath1: String, imagePath2: String, outputPath: String): Boolean {
-        return try {
-            // Load the two images
-            val img1 = ImageIO.read(File(imagePath1))
-            val img2 = ImageIO.read(File(imagePath2))
-
-            // Create a new image with a width of the larger image and a height equal to the sum of both images
-            val mergedWidth = maxOf(img1.width, img2.width)
-            val mergedHeight = img1.height + img2.height
-            val mergedImage = BufferedImage(mergedWidth, mergedHeight, BufferedImage.TYPE_INT_RGB)
-
-            // Get the graphics context from the merged image
-            val g: Graphics2D = mergedImage.createGraphics()
-
-            // Fill the background with white
-            g.color = Color.WHITE
-            g.fillRect(0, 0, mergedWidth, mergedHeight)
-
-            // Draw the first image at (0, 0)
-            g.drawImage(img1, 0, 0, null)
-
-            // Draw the second image directly below the first image
-            g.drawImage(img2, 0, img1.height, null)
-
-            // Dispose of the graphics context to release resources
-            g.dispose()
-
-            // Save the merged image to the output path
-            ImageIO.write(mergedImage, "png", File(outputPath))
-
-            // Return true if successful
-            true
-        } catch (e: Exception) {
-            // Log the exception or handle it as needed
-            e.printStackTrace()
-            // Return false if an error occurs
-            false
-        }
-    }
-
-    fun printImage(filePath: String) {
-        try {
-            // Load the image
-            val imageFile = File(filePath)
-            val image: BufferedImage = ImageIO.read(imageFile)
-
-            // Create a PrinterJob
-            val printJob: PrinterJob = PrinterJob.getPrinterJob()
-            printJob.setPrintable(object : Printable {
-                override fun print(graphics: Graphics, pageFormat: PageFormat, pageIndex: Int): Int {
-                    if (pageIndex != 0) {
-                        return Printable.NO_SUCH_PAGE // Only one page to print
-                    }
-
-                    // Get the thermal printer width (adjust as necessary)
-                    val thermalWidth = 80 * 72 / 25.4 // 80 mm in points
-
-                    // Calculate scale to fit the image within thermal printer width
-                    val scale = thermalWidth.toDouble() / image.width
-                    val scaledHeight = (image.height * scale).toInt()
-
-                    // Draw the image on the graphics object, scaled
-                    graphics.drawImage(image, 0, 0, thermalWidth.toInt(), scaledHeight, null)
-                    return Printable.PAGE_EXISTS // Indicate that the page exists
-                }
-            })
-
-            // Show print dialog and print
-            if (printJob.printDialog()) {
-                printJob.print()
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace() // Handle any exceptions
         }
     }
 
@@ -387,18 +301,24 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             <div class="straight-line"></div>
             $footerHtml
             ${if (receipt.status == "paid") "<p>Payment Method: Cash  </p>" else "<p><b>Amount Due:  ${receipt.total_amount}</b></p>"}
-            ${if (receipt.status == "pending") "<p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>" else ""}
+            ${
+            if (receipt.status == "pending") "<p>Printed on: ${
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))
+            }</p>" else ""
+        }
             <br>
             ${
-            if (receipt.status == "paid"){
+            if (receipt.status == "paid") {
                 """
                     <div class="kra">
-                        <p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>
+                        <p>Printed on: ${
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))
+                }</p>
                         <p>SCU ID    : ${receipt.scu_id}</p>
                         <p>SCU No    : ${receipt.scu_no}</p>
                      </div>
                     """.trimIndent()
-            }else " "
+            } else " "
         }
         ${
             if (receipt.status == "paid") "<img src=\"file:///$qrCode\" alt=\"QR Code\"></img>" else ""
@@ -412,17 +332,87 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
     """.trimIndent()
 
     }
+
+    override fun convertJsonToFormattedZReportString(zReport: GetZreportRes): String {
+        val reportContent = zReport.body.joinToString(separator = "") { report ->
+            "<p>${report.name}: ${report.value}</p>"
+        }
+
+        return """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Receipt</title>
+            <style>
+                body {
+                    font-family: Arial;
+                    width: 400px;
+                    font-size: 18px;
+                    margin: 0 auto;
+                    padding: 10px;
+                }
+                .header {
+                    text-align: center;
+                    font-size: 18px;
+                } 
+                .kra {
+                     text-align: start;
+                     font-size: 18px;
+                 }
+                .line {
+                    border-top: 1px dashed #000;
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                }
+                .straight-line {
+                    border-top: 1px solid #000; /* Creates a solid line */
+                }
+                .item-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .item-table th, .item-table td {
+                    padding: 5px;
+                    text-align: left;
+                }
+                .item-table th {
+                    border-bottom: 1px solid #000;
+                }
+                .right-align {
+                    text-align: right;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                <p>The Mask Food and Beverages Ltd</p>
+                <p>PIN No. P052237559Z</p>
+                <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                <br />
+            </div>
+            <h2 style="text-align: center; font-size: 24px;">Z REPORT</h2>
+   
+            <br />
+            $reportContent
+            <div class="straight-line"></div>
+     
+            <p>Kloud Sales POS</p>
+            <p>info@ubuniworks.com</p>
+            <p>+254716266205</p>
+            <p>Powered by Ubuniworks Solutions</p>
+        </body>
+        </html>
+    """.trimIndent()
+    }
 }
 
-suspend fun main() {
-
-    val receipt = GetReceiptsRepositoryImpl().getReceipts(
-        GetReceiptsReq()
-    ).last()
-
-    val html = ReceiptRepositoryImpl().convertJsonToFormattedReceiptString(receipt)
-    val generateImage = ReceiptRepositoryImpl().generateImage(html = html, receiptId = "")
-
-
+fun main() = runBlocking {
+    val results = GetReceiptsRepositoryImpl().getZReport()
+    println(results)
+    val html = ReceiptRepositoryImpl().convertJsonToFormattedZReportString(results!!)
+    println(html)
+    ReceiptRepositoryImpl().generateZReportImage(html)
 }
-

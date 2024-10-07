@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 class DashboardScreenViewModel(
     private val getReceiptUseCase: GetAllReceipts = GetAllReceipts(),
-    private val reprintUseCase: ReprintUseCase = ReprintUseCase(),
     private val printReceiptUseCase: PrintReceiptUseCase = PrintReceiptUseCase(),
     private val deleteReceiptUseCase: DeleteReceiptUseCase = DeleteReceiptUseCase(),
     private val continousPullOfBIllAndReceiptsUseCase: ContinousPullOfBIllAndReceiptsUseCase = ContinousPullOfBIllAndReceiptsUseCase(),
@@ -71,7 +70,6 @@ class DashboardScreenViewModel(
     fun reprint(receiptId:String, printingStatus: PrintingStatus){
         screenModelScope.launch {
             reprintState = reprintState.copy(isLoading = true)
-            reprintUseCase.reprint(receiptId, printingStatus)
             getReceipts()
             reprintState = reprintState.copy(isLoading = false)
 

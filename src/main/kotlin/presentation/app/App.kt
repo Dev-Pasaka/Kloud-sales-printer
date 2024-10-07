@@ -13,7 +13,6 @@ import data.repository.ReceiptDBRepositoryImpl
 import data.repository.ReceiptRepositoryImpl
 import domain.model.PrintingStatus
 import domain.repository.jsonString
-import domain.usecase.GenerateReceiptUseCase
 import domain.usecase.PrintPendingReceiptsUseCase
 import domain.usecase.PrintReceiptUseCase
 import domain.usecase.PullNewReceiptsUseCase

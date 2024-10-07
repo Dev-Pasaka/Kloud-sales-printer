@@ -3,6 +3,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import domain.usecase.ContinousPrintReceiptsUseCase
 import domain.usecase.ContinousPullOfBIllAndReceiptsUseCase
+import domain.usecase.ContinousPullOfZReportsUseCase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import presentation.app.App
@@ -17,9 +18,9 @@ fun main() = runBlocking {
         launch {
             ContinousPullOfBIllAndReceiptsUseCase().execute()
         }
-       /* launch {
-            ContinousPrintReceiptsUseCase().execute()
-        }*/
+       launch {
+            ContinousPullOfZReportsUseCase().invoke()
+        }
         Window(
             title = "Kloud Sales Printer",
             onCloseRequest = {
