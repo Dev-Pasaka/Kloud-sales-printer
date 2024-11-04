@@ -127,7 +127,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             Paths.get(getReceiptsFolderPath(), "receipts-with-qr/${receiptId}_receipt.png").toString()
         imageGenerator.saveAsImage(desktopReceiptsPath)
         val file = File(desktopReceiptsPath)
-        printPNGImage(desktopReceiptsPath)
+       printPNGImage(desktopReceiptsPath)
 
     }
 
@@ -152,7 +152,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
             Paths.get(getReceiptsFolderPath(), "ZReports/${System.currentTimeMillis()}_zreport.png").toString()
         imageGenerator.saveAsImage(desktopReceiptsPath)
         val file = File(desktopReceiptsPath)
-        printPNGImage(desktopReceiptsPath)
+        //printPNGImage(desktopReceiptsPath)
 
     }
 
@@ -195,15 +195,14 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         val qrCodeFilePath = "qr_code_image.png" // Adjust the path as necessary
 
         // Generate and save the QR code image
-        generateQRCodeImage(receipt.qrurl ?: "No data ", 300, qrCodeFilePath) // 100x100 size for the QR code
+        generateQRCodeImage(receipt.qrurl ?: "No data", 170, qrCodeFilePath) // Reduced size to 100x100 for QR code
 
         val itemsHtml = receipt.items.joinToString("") { item ->
             val itemTotal = item.price.toDouble() * item.qty.toDouble()
             """
         <tr>
-            <td>${item.name}</td>
-            <td class="right-align">${item.qty}x</td>
-            <td class="right-align">${item.price}</td>
+            <td>${item.name} @${item.price}</td>
+            <td class="right-align">X${item.qty}</td>
             <td class="right-align">${itemTotal}0</td>
         </tr>
         """.trimIndent()
@@ -220,50 +219,51 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         <p>Balance: KES %.2f</p>
         """.trimIndent().format(totalAmount, amountPaid, balance)
         } else {
-            """
-        """.trimIndent().format(totalAmount)
+            ""
         }
 
         val qrCode = Paths.get(getReceiptsFolderPath(), "qr_code_images", "qr-code-image.png").toString()
-
 
         return """
         <!DOCTYPE html>
         <html lang="en">
         <head>
-            <meta charset="UTF-8"> </meta>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Receipt</title>
             <style>
                 body {
-                    font-family: Arial;
-                    width: 400px;
-                    font-size: 18px;
+                    font-family: Arial, sans-serif;
+                    width: 400px; /* Reduced width for compactness */
+                    font-size: 16px; /* Smaller font size */
                     margin: 0 auto;
-                    padding: 10px;
+                    padding: 5px;
+                    line-height: 1.1; /* Reduced line spacing */
                 }
-                .header {
-                    text-align: center;
-                    font-size: 18px;
-                } 
-                .kra {
-                     text-align: start;
-                     font-size: 18px;
-                 }
+                .header, .kra, .footer {
+                    line-height: 1.1; /* Reduced line height */
+                    font-size: 16px; /* Compact font */
+                }
+              
+                h2, p {
+                    margin: 0;
+                    padding: 0;
+                }
+                .line, .straight-line {
+                    margin: 2px 0;
+                }
                 .line {
                     border-top: 1px dashed #000;
-                    margin-top: 5px;
-                    margin-bottom: 5px;
                 }
                 .straight-line {
-                    border-top: 1px solid #000; /* Creates a solid line */
+                    border-top: 1px solid #000;
                 }
                 .item-table {
                     width: 100%;
                     border-collapse: collapse;
                 }
                 .item-table th, .item-table td {
-                    padding: 5px;
+                    padding: 2px; /* Minimal padding for table cells */
                     text-align: left;
                 }
                 .item-table th {
@@ -272,65 +272,67 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                 .right-align {
                     text-align: right;
                 }
+                img {
+                    width: 65px; /* Increased QR code size by 30% */
+                    height: 65px;
+                    margin: 5px 0;
+                }
+                .footer p {
+                    margin: 0px 0;
+                    font-size: 14px; /* Slightly smaller footer text */
+                }
             </style>
         </head>
         <body>
             <div class="header">
-                <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130"></img>
-                <p>The Mask Food and Beverages Ltd</p>
-                <p>PIN No. P052237559Z</p>
-                <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br></br>Nairobi, Kenya</p>
-                <br>
+                <p>Ubuniworks Ltd<br>P.O BOX 16779 00100<br>Nairobi, Kenya</p>
             </div>
-            <h2 style="text-align: center; font-size: 24px;">${receiptType.padEnd(50)}</h2>
+            <br>
+            <h2 style="font-size: 20px;">${receiptType.padEnd(50)}</h2>
+            <br>
             <p>${if (receipt.status == "pending") "BILL No: ${receipt.id}" else "Receipt No: ${receipt.id}"}</p>
             <p>Station: ${receipt.placing_station.name}</p>
             <p>Order Type: ${receipt.type}</p>
             <p>Waiter: ${receipt.placing_waiter?.name ?: "N/A"}</p>
             <p>Table No./Cust Name: ${receipt.customer}</p>
-            <br></br>
+            <br>
+            
             <table class="item-table">
                 <tr>
                     <th>Items</th>
                     <th>Qty</th>
-                    <th>Price</th>
                     <th>Total</th>
                 </tr>
                 $itemsHtml
             </table>
             <div class="straight-line"></div>
             $footerHtml
-            ${if (receipt.status == "paid") "<p>Payment Method: Cash  </p>" else "<p><b>Amount Due:  ${receipt.total_amount}</b></p>"}
+            ${if (receipt.status == "paid") "<p>Payment Method: Cash</p>" else "<p><b>Amount Due: ${receipt.total_amount}</b></p>"}
             ${
-            if (receipt.status == "pending") "<p>Printed on: ${
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))
-            }</p>" else ""
+            if (receipt.status == "pending") "<p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>" else ""
         }
-            <br>
             ${
             if (receipt.status == "paid") {
                 """
+                    <br>
                     <div class="kra">
-                        <p>Printed on: ${
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))
-                }</p>
-                        <p>SCU ID    : ${receipt.scu_id}</p>
-                        <p>SCU No    : ${receipt.scu_no}</p>
-                     </div>
+                        <p>Printed on: ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))}</p>
+                        <p>SCU ID: ${receipt.scu_id}</p>
+                        <p>SCU No: ${receipt.scu_no}</p>
+                    </div>
                     """.trimIndent()
-            } else " "
+            } else ""
         }
-        ${
-            if (receipt.status == "paid") "<img src=\"file:///$qrCode\" alt=\"QR Code\"></img>" else ""
-        }
-        <p>Kloud Sales POS</p>
-        <p>info@ubuniworks.com</p>
-        <p>+254716266205</p>
-        <p>Powered by Ubuniworks Solutions</p>
+            ${if (receipt.status == "paid") "<img src=\"file:///$qrCode\" alt=\"QR Code\">" else ""}
+            <div class="footer">
+                <p>Kloud Sales POS</p>
+                <p>info@ubuniworks.com</p>
+                <p>+254716266205</p>
+                <p>Powered by Ubuniworks Solutions</p>
+            </div>
         </body>
         </html>
     """.trimIndent()
-
     }
 
     override fun convertJsonToFormattedZReportString(zReport: GetZreportRes): String {
@@ -410,9 +412,8 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
 }
 
 fun main() = runBlocking {
-    val results = GetReceiptsRepositoryImpl().getZReport()
-    println(results)
-    val html = ReceiptRepositoryImpl().convertJsonToFormattedZReportString(results!!)
+    val results = GetReceiptsRepositoryImpl().getBills(GetReceiptsReq("pending", 1)).first { it.status == "pending" }
+    val html = ReceiptRepositoryImpl().convertJsonToFormattedReceiptString(results)
     println(html)
-    ReceiptRepositoryImpl().generateZReportImage(html)
+    ReceiptRepositoryImpl().generateImage(html, "1234")
 }
