@@ -324,7 +324,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
                     <div class="header">
-                        <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
                         <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
@@ -490,7 +490,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
                     <div class="header">
-                        <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
                         <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
@@ -654,7 +654,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
                     <div class="header">
-                        <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
                         <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
@@ -819,7 +819,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
                     <div class="header">
-                        <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
                         <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
@@ -997,7 +997,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
                     <div class="header">
-                        <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
                         <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
@@ -1168,7 +1168,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
                     <div class="header">
-                        <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
                         <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
@@ -1310,7 +1310,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
                     <div class="header">
-                        <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
                         <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
@@ -1408,7 +1408,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </head>
         <body>
             <div class="header">
-                <img src="https://st.pavicontech.com/api/v1/files/cinnabon-logo-1.png" width="300" height="130" />
+                <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                 <p>The Mask Food and Beverages Ltd</p>
                 <p>PIN No. P052237559Z</p>
                 <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
