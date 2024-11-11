@@ -33,7 +33,6 @@ class ReceiptDBRepositoryImpl(
                     receiptObj.url,
                     receiptObj.status
                 )
-                ReceiptRepositoryImpl().generateImage(receiptString, receiptId)
                 true
             } catch (e: Exception) {
                 e.printStackTrace()

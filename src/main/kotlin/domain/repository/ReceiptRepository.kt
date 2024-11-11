@@ -15,17 +15,10 @@ import java.time.format.DateTimeFormatter
 
 interface ReceiptRepository {
     suspend fun printPNGImage(filePath: String) : Pair<String, Boolean?>
-    fun convertJsonToFormattedReceiptString(receipt: GetReceiptsResItem): String
-    fun convertJsonToFormattedZReportString(zReport: GetZreportRes): String
+
 
 }
 
-
-suspend fun main() {
-    val result = GetReceiptsRepositoryImpl().getReceipts(body = GetReceiptsReq("paid", 1))
-    val formattedReceipt = ReceiptRepositoryImpl().convertJsonToFormattedReceiptString(result.first())
-    println(formattedReceipt)
-}
 
 val jsonString = """
     {

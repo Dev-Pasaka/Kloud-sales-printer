@@ -1,9 +1,7 @@
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import domain.usecase.ContinousPrintReceiptsUseCase
-import domain.usecase.ContinousPullOfBIllAndReceiptsUseCase
-import domain.usecase.ContinousPullOfZReportsUseCase
+import domain.usecase.ListenToEventsUseCase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import presentation.app.App
@@ -16,18 +14,16 @@ fun main() = runBlocking {
     ) {
 
         launch {
-            ContinousPullOfBIllAndReceiptsUseCase().execute()
+            ListenToEventsUseCase().event()
         }
-       launch {
-            ContinousPullOfZReportsUseCase().invoke()
-        }
+
         Window(
             title = "Kloud Sales Printer",
             onCloseRequest = {
                 exitApplication()
             }
         ) {
-            App() // Your main app content
+            App()
         }
     }
 

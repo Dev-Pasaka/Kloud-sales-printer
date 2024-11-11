@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetZreportRes(
-    val body: List<Body>,
-    val printed: String,
-    val status: Boolean
+    val report: List<Body>,
+    val reprint: String
 )

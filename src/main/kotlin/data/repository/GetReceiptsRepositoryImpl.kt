@@ -1,131 +1,141 @@
 package data.repository
 
+import common.Resource
+import data.remote.event.Event
+import data.remote.event.parseEvent
 import data.remote.request.GetReceiptsReq
 import data.remote.response.getReceiptsRes.GetReceiptsResItem
 import data.remote.response.getReceiptsRes.UpdatedPrintedReceiptsRes
 import data.remote.response.getZReport.GetZreportRes
 import domain.repository.GetReceiptsRepository
+import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import io.ktor.network.selector.*
+import io.ktor.network.sockets.*
+import io.ktor.websocket.*
+import io.socket.client.IO
+import io.socket.client.Socket
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ClosedReceiveChannelException
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import utils.KeyValueStorage
 import utils.KtorClient
+import utils.KtorClient.client
+import java.nio.ByteBuffer
+import java.util.*
 
 class GetReceiptsRepositoryImpl(
-    private val api: KtorClient = KtorClient,
-    private val keys: KeyValueStorage = KeyValueStorage
 ) : GetReceiptsRepository {
-    override // Function to get receipts
-    suspend fun getReceipts(body: GetReceiptsReq): List<GetReceiptsResItem> = withContext(Dispatchers.IO) {
-        val getReceipts: String = try {
-            KtorClient.client.post("https://cinnabon-vm.ubuniworks.com/api/v1/transactions") {
-                val stationId = KeyValueStorage.get(key = "stationId")
-                contentType(ContentType.Application.Json)
-                setBody(
-                    """
-                    {
-                        "type": "${body.copy(type = "paid").type}",
-                        "station": 1
-                    }
-                """.trimIndent()
-                )
-            }.bodyAsText()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ""
-        }
 
-        println("Response receipts:$getReceipts")
-        return@withContext try {
-            val res = Json.decodeFromString<List<GetReceiptsResItem>>(getReceipts)
-            res.filter { it.print != "1" }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emptyList()
-        }
-    }
-
-    override suspend fun getBills(body: GetReceiptsReq): List<GetReceiptsResItem> = withContext(Dispatchers.IO) {
-        val getReceipts: String = try {
-            KtorClient.client.post("https://cinnabon-vm.ubuniworks.com/api/v1/transactions") {
-                val stationId = KeyValueStorage.get(key = "stationId")
-                contentType(ContentType.Application.Json)
-                setBody(
-                    """
-                    {
-                        "type": "${body.copy(type = "pending").type}",
-                        "station": 1
-                    }
-                """.trimIndent()
-                )  // This will automatically serialize the body using kotlinx.serialization
-            }.bodyAsText()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ""
-        }
-        println("Response bills:$getReceipts")
-
-        return@withContext try {
-            val res = Json.decodeFromString<List<GetReceiptsResItem>>(getReceipts)
-            res.filter { it.print != "1" }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emptyList()
-        }
-    }
-
-    override suspend fun updatePrintedReceiptOrBill(id: String): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun listenReceipts(): Flow<Resource<Event>> = channelFlow {
         try {
-            val result =
-                api.client.get("https://cinnabon-vm.ubuniworks.com/api/v1/transactions/printed/$id").bodyAsText()
-            val obj = Json.decodeFromString<UpdatedPrintedReceiptsRes>(result)
-            obj.status.toBoolean()
+            val options = IO.Options()
+            options.transports = arrayOf("websocket") // Use WebSocket transport
+            options.forceNew = true
+            options.reconnection = true
+
+            // Connect to the Socket.IO server
+            val socket: Socket = IO.socket("http://143.42.60.140:3000/printouts", options)
+
+            // Listener for successful connection
+            socket.on(Socket.EVENT_CONNECT) {
+                println("Connected to Socket.IO server!")
+
+                // Emit a message to the server if required
+                socket.emit("custom-event", "Hello, Server!")
+                trySend(Resource.Loading(message = "Connected to Socket.IO server!"))
+
+            }
+
+            // Listener for custom server event
+            socket.on("data") { args ->
+                try {
+                    args.forEach { event ->
+                        println(event)
+                        val data = parseEvent(event.toString())
+                        trySend(
+                            Resource.Success(
+                                data = data,
+                                message = "Success"
+                            )
+                        )
+
+                    }
+                } catch (e: Exception) {
+                    println("Error processing data: ${e.localizedMessage}")
+                    e.printStackTrace()
+                }
+            }
+
+            // Listener for connection errors
+            socket.on(Socket.EVENT_CONNECT_ERROR) { args ->
+                val error = args.getOrNull(0)
+                println("Connection error: $error")
+                trySend(Resource.Loading(message = "Connected to Socket.IO server!"))
+            }
+
+            // Listener for disconnection
+            socket.on(Socket.EVENT_DISCONNECT) {
+                println("Disconnected from server.")
+                trySend(Resource.Loading(message = "Connected to Socket.IO server!"))
+
+            }
+
+            // Open the connection
+            socket.connect()
+            // Keep the channel open and reconnect on disconnection
+            while (isActive) {
+                if (!socket.connected()) {
+                    println("Reconnecting...")
+                    try {
+                        socket.connect()
+                    } catch (e: Exception) {
+                        println("Reconnection failed: ${e.localizedMessage}")
+                        trySend(Resource.Error("Reconnection failed: ${e.localizedMessage}"))
+                    }
+                }
+                delay(5000) // Adjust the delay as needed
+            }
+
+            // Clean up when the flow is closed
+            awaitClose {
+                socket.disconnect()
+                socket.off() // Remove all listeners
+                println("Socket disconnected and flow closed.")
+            }
         } catch (e: Exception) {
-            e.printStackTrace()
-            false
+            println("Error: ${e.localizedMessage}")
         }
-
-
     }
 
-    override suspend fun getZReport(): GetZreportRes? = withContext(Dispatchers.IO) {
-        val getZReports: String = try {
-            KtorClient.client.post("https://cinnabon.ubuniworks.com/api/v1/zreport") {
-                contentType(ContentType.Application.Json)
-                setBody(
-                    """
-                        {
-                            "user_id": 2,
-                            "station": ${1},
-                            "cash": ${10000},
-                            "reprint": ${true}
-                        }
-                """.trimIndent()
-                )
-            }.bodyAsText()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ""
-        }
-        println("Response bills:$getZReports")
 
-        return@withContext try {
-            Json.decodeFromString<GetZreportRes>(getZReports)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
 }
 
 suspend fun main() {
-    val receipts = GetReceiptsRepositoryImpl().getZReport()
+    GetReceiptsRepositoryImpl().listenReceipts().collect {event->
+        when(event){
+            is Resource.Success -> {
+                val data = event.data
+                when(data){
+                    is Event.Receipt ->{
+                        val html = ReceiptRepositoryImpl().convertJsonToFormattedReceiptString(data.receipt)
+                        ReceiptRepositoryImpl().generateImage(
+                            html = html,
+                            receiptId = data.receipt.id.toString()
+                        )
+                    }else->{
 
-    println(receipts)
+                    }
+                }
+            }
+            else ->{
 
-
+            }
+        }
+    }
 }

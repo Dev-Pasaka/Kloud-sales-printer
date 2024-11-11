@@ -5,9 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7bc01e3-ee26-4130-9743-a50d96bf49e6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Sockets.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/event/Event.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getLowStockRes/GetLowStockRes.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getLowStockRes/Lowstock.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getLowStockRes/PlacingStation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getLowStockRes/PlacingWaiter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getLowStockRes/Transaction.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsAddedRes/AddedItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsAddedRes/GetReceiptsAddedItemRes.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsAddedRes/Item.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsAddedRes/PaymentCashier.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsAddedRes/PlacingStation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsAddedRes/PlacingWaiter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getReceiptsAddedRes/Transaction.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getSplitReceiptRes/GetSplitReceiptRes.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getSplitReceiptRes/Item.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getSplitReceiptRes/PaymentCashier.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getSplitReceiptRes/PlacingCashier.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getSplitReceiptRes/PlacingStation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ListenToEventsUseCase.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppDatabase.db" beforeDir="false" afterPath="$PROJECT_DIR$/AppDatabase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppDatabase.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getZReport/GetZreportRes.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/remote/response/getZReport/GetZreportRes.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/GetReceiptsRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptDBRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptDBRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/data/repository/ReceiptRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/repository/GetReceiptsRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/repository/GetReceiptsRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/repository/ReceiptRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/domain/repository/ReceiptRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ContinousPrintReceiptsUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ContinousPullOfBIllAndReceiptsUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/ContinousPullOfZReportsUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/GenerateReceiptUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PrintPendingReceiptsUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewBillsUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/domain/usecase/PullNewReceiptsUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/presentation/app/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/presentation/app/App.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/DashboardScreenViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/presentation/screens/dashboard/DashboardScreenViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/utils/KtorClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/utils/KtorClient.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,6 +176,7 @@
     &quot;Kotlin.ReceiptDBRepositoryImplKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.ReceiptRepositoryImplKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.ReceiptRepositoryKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.SocketsKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.StartAppKt (1).executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.StartAppKt.executor&quot;: &quot;Run&quot;,
     &quot;Kotlin.Test2Kt.executor&quot;: &quot;Run&quot;,
@@ -151,7 +189,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.cloudcode.ide_session_index&quot;: &quot;20241011_0007&quot;,
+    &quot;com.google.cloudcode.ide_session_index&quot;: &quot;20241111_0003&quot;,
     &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
@@ -190,8 +228,11 @@
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="data.remote.response.getReceiptsRes" />
     </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="data.remote.response.getReceiptsAddedRes" />
+    </key>
   </component>
-  <component name="RunManager" selected="Kotlin.ReceiptRepositoryImplKt">
+  <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="KoudSalesPrinter [packageComposeApp]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -228,13 +269,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReceiptDBRepositoryImplKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="data.repository.ReceiptDBRepositoryImplKt" />
-      <module name="KloudSalesPrinter.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ReceiptRepositoryImplKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="data.repository.ReceiptRepositoryImplKt" />
       <module name="KloudSalesPrinter.main" />
@@ -242,13 +276,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SocketsKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SocketsKt" />
+      <module name="KloudSalesPrinter.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.ReceiptRepositoryImplKt" />
         <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Kotlin.GetReceiptsRepositoryImplKt" />
+        <item itemvalue="Kotlin.SocketsKt" />
+        <item itemvalue="Kotlin.ReceiptRepositoryImplKt" />
         <item itemvalue="Gradle.KoudSalesPrinter [packageComposeApp]" />
-        <item itemvalue="Kotlin.ReceiptDBRepositoryImplKt" />
       </list>
     </recent_temporary>
   </component>
@@ -279,6 +320,15 @@
       <workItem from="1728634383465" duration="295000" />
       <workItem from="1728651408654" duration="4386000" />
       <workItem from="1728655800158" duration="3000" />
+      <workItem from="1730702062693" duration="305000" />
+      <workItem from="1730836395142" duration="1458000" />
+      <workItem from="1730889443705" duration="3000" />
+      <workItem from="1730919625136" duration="6168000" />
+      <workItem from="1730989439621" duration="18000" />
+      <workItem from="1731047585906" duration="4130000" />
+      <workItem from="1731229907198" duration="6337000" />
+      <workItem from="1731313478236" duration="15399000" />
+      <workItem from="1731331487572" duration="6419000" />
     </task>
     <servers />
   </component>

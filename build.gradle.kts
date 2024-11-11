@@ -155,6 +155,17 @@ dependencies {
     //Ktor
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-websockets:$ktor_version")
+    implementation("io.ktor:ktor-network:$ktor_version" )
+    implementation("io.socket:socket.io-client:2.1.1") // Use the latest version
+    //implementation("io.socket:engine.io-client:2.1.0") // Latest version as of now
+    //Jackson
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
+
+
+
+
     // Logging plugin
     implementation("io.ktor:ktor-client-logging:2.3.4")
     //Serialization
@@ -176,10 +187,6 @@ dependencies {
     implementation("com.openhtmltopdf:openhtmltopdf-slf4j:1.0.10")
     //Printing html
     implementation("org.xhtmlrenderer:flying-saucer-pdf:9.9.5")
-
-
-
-
 
 
 

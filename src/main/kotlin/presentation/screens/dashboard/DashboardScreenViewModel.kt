@@ -15,8 +15,6 @@ class DashboardScreenViewModel(
     private val getReceiptUseCase: GetAllReceipts = GetAllReceipts(),
     private val printReceiptUseCase: PrintReceiptUseCase = PrintReceiptUseCase(),
     private val deleteReceiptUseCase: DeleteReceiptUseCase = DeleteReceiptUseCase(),
-    private val continousPullOfBIllAndReceiptsUseCase: ContinousPullOfBIllAndReceiptsUseCase = ContinousPullOfBIllAndReceiptsUseCase(),
-    private val continousPrintReceiptsUseCase: ContinousPrintReceiptsUseCase = ContinousPrintReceiptsUseCase()
 ): ScreenModel {
     var selectedScreen by mutableStateOf("Logs")
         private set
