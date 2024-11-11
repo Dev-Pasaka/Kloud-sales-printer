@@ -50,14 +50,15 @@ fun parseEvent(json: String ):Event {
             val receiptData = jsonParser.decodeFromJsonElement<GetReceiptsResItem>(wrapper.data)
             return Event.Receipt(receiptData)
         }
+        "receipt_reprint" -> {
+            val receiptData = jsonParser.decodeFromJsonElement<GetReceiptsResItem>(wrapper.data)
+            return Event.ReceiptReprint(receiptData)
+        }
         "receipt_update" -> {
             val receiptData = jsonParser.decodeFromJsonElement<GetReceiptsResItem>(wrapper.data)
             return Event.ReceiptUpdated(receiptData)
         }
-        "receipt_reprint" -> {
-            val receiptData = jsonParser.decodeFromJsonElement<GetReceiptsResItem>(wrapper.data)
-            return Event.BillReprint(receiptData)
-        }
+
         "zreport" -> {
             val receiptData = jsonParser.decodeFromJsonElement<GetZreportRes>(wrapper.data)
             return Event.ZReport(receiptData)
@@ -87,6 +88,7 @@ sealed class Event{
     data class SplitReceipt(val receipt: GetSplitReceiptRes):Event()
     data class Bill(val bill: GetReceiptsResItem):Event()
     data class BillReprint(val bill: GetReceiptsResItem):Event()
+    data class ReceiptReprint(val bill: GetReceiptsResItem):Event()
     data class BillUpdated(val bill: GetReceiptsResItem):Event()
     data class BillAdded(val bill: GetReceiptsAddedItemRes):Event()
     data class ZReport(val zReport: GetZreportRes):Event()

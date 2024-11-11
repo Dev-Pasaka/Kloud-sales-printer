@@ -52,6 +52,13 @@ class ListenToEventsUseCase(
                                 receiptId = data.bill.id.toString()
                             )
                         }
+                        is Event.ReceiptReprint ->{
+                            val html = ReceiptRepositoryImpl().convertJsonToFormattedReceiptReprintString(data.bill)
+                            ReceiptRepositoryImpl().generateImage(
+                                html = html,
+                                receiptId = data.bill.id.toString()
+                            )
+                        }
                         is Event.Bill ->{
                             val html = ReceiptRepositoryImpl().convertJsonToFormattedBillReprintString(data.bill)
                             ReceiptRepositoryImpl().generateImage(

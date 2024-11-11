@@ -550,6 +550,172 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         </html>
     """.trimIndent()
     }
+    fun convertJsonToFormattedReceiptReprintString(receipt: GetReceiptsResItem): String {
+        val receiptType = "RECEIPT"
+
+        // Define the path where the QR code image will be saved
+        val qrCodeFilePath = "qr_code_image.png" // Adjust the path as necessary
+
+        // Generate and save the QR code image
+        generateQRCodeImage(receipt.qrurl ?: "No data", 170, qrCodeFilePath) // Reduced size to 100x100 for QR code
+
+        val itemsHtml = receipt.items.joinToString("") { item ->
+            val itemTotal = item.price.toDouble() * item.qty.toDouble()
+            """
+        <tr>
+            <td>${item.name} @${item.price}</td>
+            <td class="right-align">X${item.qty}</td>
+            <td class="right-align">${itemTotal}0</td>
+        </tr>
+        """.trimIndent()
+        }
+
+        val totalAmount = receipt.total_amount.toDouble()
+        val amountPaid = receipt.amount.toDouble() // Adjust this as necessary
+        val balanceAmount = totalAmount - amountPaid
+
+        val footerHtml = if (receipt.status != "pending") {
+            """
+        <p><b>Total Amount: KES %.2f</b></p>
+        <p>Amount Paid: KES %.2f</p>
+        <p>Balance: KES %.2f</p>
+        """.trimIndent().format(totalAmount, amountPaid, balanceAmount)
+        } else {
+            ""
+        }
+
+        val qrCode = Paths.get(getReceiptsFolderPath(), "qr_code_images", "qr-code-image.png").toString()
+        val logo = Paths.get(getReceiptsFolderPath()).toString()
+
+        return """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Receipt</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    width: 400px; /* Reduced width for compactness */
+                    font-size: 16px; /* Smaller font size */
+                    margin: 0 auto;
+                    padding: 5px;
+                    line-height: 1.1; /* Reduced line spacing */
+                }
+                .header, .kra, .footer {
+                    line-height: 1.1; /* Reduced line height */
+                    font-size: 16px; /* Compact font */
+                }
+                    .header {
+                        display: flex; /* Use Flexbox */
+                        flex-direction: column; /* Stack contents vertically */
+                        align-items: center; /* Center horizontally */
+                        justify-content: center; /* Center vertically */
+                        text-align: center; /* Center text */
+                        margin: 0 auto; /* Center the div horizontally on the page */
+                    }
+              
+                h2, p {
+                    margin: 0;
+                    padding: 0;
+                }
+                .line, .straight-line {
+                    margin: 2px 0;
+                }
+                .line {
+                    border-top: 1px dashed #000;
+                }
+                .straight-line {
+                    border-top: 1px solid #000;
+                }
+                .item-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .item-table th, .item-table td {
+                    padding: 2px; /* Minimal padding for table cells */
+                    text-align: left;
+                }
+                .item-table th {
+                    border-bottom: 1px solid #000;
+                }
+                .right-align {
+                    text-align: right;
+                }
+                img {
+                    width: 65px; /* Increased QR code size by 30% */
+                    height: 65px;
+                    margin: 5px 0;
+                }
+                .footer p {
+                    margin: 0px 0;
+                    font-size: 14px; /* Slightly smaller footer text */
+                }
+            </style>
+        </head>
+        <body>
+                    <div class="header">
+                        <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
+                        <p>The Mask Food and Beverages Ltd</p>
+                        <p>PIN No. P052237559Z</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <br />
+                   </div>
+            <br>
+            <h2 style="font-size: 20px;">
+                RECEIPT - REPRINT
+            </h2>
+            
+            <br>
+            <p>${if (receipt.status == "pending") "BILL No: ${receipt.id}" else "Receipt No: ${receipt.id}"}</p>
+            <p>Station: ${receipt.placing_station.name}</p>
+            <p>Order Type: ${receipt.type}</p>
+            <p>Waiter: ${receipt.placing_waiter?.name ?: "N/A"}</p>
+            <p>Table No./Cust Name: ${receipt.customer}</p>
+            <br>
+            
+            <table class="item-table">
+                <tr>
+                    <th>Items</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+                $itemsHtml
+            </table>
+            <div class="straight-line"></div>
+            $footerHtml
+            ${if (receipt.status == "paid") "<p>Payment Method: Cash</p>" else "<p><b>Amount Due: ${receipt.total_amount}</b></p>"}
+            ${
+            if (receipt.status == "pending") "<p>Printed on: ${
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))
+            }</p>" else ""
+        }
+            ${
+            if (receipt.status == "paid") {
+                """
+                    <br>
+                    <div class="kra">
+                        <p>Printed on: ${
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss"))
+                }</p>
+                        <p>SCU ID: ${receipt.scu_id}</p>
+                        <p>SCU No: ${receipt.scu_no}</p>
+                    </div>
+                    """.trimIndent()
+            } else ""
+        }
+            ${if (receipt.status == "paid") "<img src=\"file:///$qrCode\" alt=\"QR Code\">" else ""}
+            <div class="footer">
+                <p>Kloud Sales POS</p>
+                <p>info@ubuniworks.com</p>
+                <p>+254716266205</p>
+                <p>Powered by Ubuniworks Solutions</p>
+            </div>
+        </body>
+        </html>
+    """.trimIndent()
+    }
     fun convertJsonToFormattedBillUpdateString(receipt: GetReceiptsResItem): String {
         // Define the path where the QR code image will be saved
         val qrCodeFilePath = "qr_code_image.png" // Adjust the path as necessary
