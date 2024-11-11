@@ -137,9 +137,10 @@ class ListenToEventsUseCase(
                             )
                         }
                         is Event.Error ->{
-
+                            println("An error occurred: ${data.message}")
                         }
                         else ->{
+                            println("An registered event")
 
                         }
                     }
