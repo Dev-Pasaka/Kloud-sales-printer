@@ -327,7 +327,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
-                        <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                         <br />
                    </div>
             <br>
@@ -493,12 +493,12 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
-                        <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                         <br />
                    </div>
             <br>
             <h2 style="font-size: 20px;">
-                BILL-REPRINT
+                BILL - REPRINT
             </h2>
             
             <br>
@@ -657,12 +657,12 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
-                        <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                         <br />
                    </div>
             <br>
             <h2 style="font-size: 20px;">
-                BILL-UPDATE
+                BILL - UPDATE
             </h2>
             
             <br>
@@ -822,12 +822,12 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
-                        <p style="font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                         <br />
                    </div>
             <br>
             <h2 style="font-size: 20px;">
-                RECEIPT-UPDATE
+                RECEIPT - UPDATE
             </h2>
             
             <br>
@@ -1000,7 +1000,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
-                        <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                         <br />
                     </div>
             <br>
@@ -1171,7 +1171,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
-                        <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                         <br />
                     </div>
             <br>
@@ -1313,7 +1313,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                         <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                         <p>The Mask Food and Beverages Ltd</p>
                         <p>PIN No. P052237559Z</p>
-                        <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                        <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                         <br />
                     </div>
             <br>
@@ -1411,7 +1411,7 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
                 <img src="https://cinnabon.ubuniworks.com/images/logo/cinnabon-logo-1.jpg" width="300" height="130" />
                 <p>The Mask Food and Beverages Ltd</p>
                 <p>PIN No. P052237559Z</p>
-                <p style="text-align: center; font-size: 20px;">P.O BOX 79702-00200<br />Nairobi, Kenya</p>
+                <p>P.O BOX 79702-00200<br />Nairobi, Kenya</p>
                 <br />
             </div>
             <h2 style="text-align: center; font-size: 24px;">Z REPORT</h2>
