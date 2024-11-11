@@ -1398,10 +1398,10 @@ class ReceiptRepositoryImpl() : ReceiptRepository {
         val logo = Paths.get(getReceiptsFolderPath()).toString()
 
 
-        val itemsHtml = receipt.transaction.items.joinToString("") { item ->
+        val itemsHtml = receipt.lowstock.joinToString("") { item ->
            val str = """
         <tr>
-            <td class="right-align">${index+1}.${item}</td>
+            <td class="right-align">${index+1}.${item.name}</td>
         </tr>
         """.trimIndent()
             index++
